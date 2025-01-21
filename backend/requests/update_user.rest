@@ -1,0 +1,12 @@
+POST http://localhost:3003/api/users/2
+Content-Type: application/json
+Authorization: Bearer xxx
+
+{
+    "name": "",
+    "username": "",
+    "email": "",
+    "oldPassword": "",
+    "newPassword": "",
+    "newPassword2": ""
+}

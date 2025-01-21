@@ -1,0 +1,8 @@
+POST http://localhost:3003/api/reservations
+Content-Type: application/json
+Authorization: Bearer xxx
+
+
+{   "userId": 2,
+    "bookId": 2
+}

@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/books
+Content-Type: application/json
+Authorization: Bearer xxx
+
+{
+    "author": "McKensie",
+    "title": "Christmas tales",
+    "year": 2003,
+    "numberOfBooks": 3
+}

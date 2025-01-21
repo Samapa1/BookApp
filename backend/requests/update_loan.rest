@@ -1,0 +1,3 @@
+POST http://localhost:3003/api/loans/47
+Content-Type: application/json
+Authorization: Bearer xxx

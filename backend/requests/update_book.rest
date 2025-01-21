@@ -1,0 +1,16 @@
+PUT http://localhost:3003/api/books/11
+Content-Type: application/json
+Authorization: Bearer xxx
+{
+    "author": "Ann McKensie",
+    "title": "Christmas Tales",
+    "year": 2022,
+    "numberOfBooks": 2,
+    "language": "english",
+    "class": "85",
+    "subjects": null, 
+    "genre": "tales"
+}
+
+
+

@@ -1,0 +1,44 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "json-server -p3001 --watch db.json",
+    "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development nodemon index.js",
+    "test": "NODE_ENV=test node --test",
+    "start:test": "NODE_ENV=test node index.js",
+    "migrate": "NODE_ENV=test node utils/migrations.js",
+    "migration:down": "node utils/rollback.js",
+    "lint": "eslint ."
+  },
+  "author": "Saija Pajari",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "bull": "^4.16.4",
+    "bullmq": "^5.25.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "express-async-errors": "^3.1.1",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.13.0",
+    "redis": "^4.7.0",
+    "sequelize": "^6.37.3",
+    "umzug": "^3.8.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "globals": "^15.14.0",
+    "json-server": "^1.0.0-beta.3",
+    "nodemon": "^3.1.7",
+    "prettier": "3.4.2",
+    "prettier-eslint": "^16.3.0",
+    "supertest": "^7.0.0"
+  }
+}
