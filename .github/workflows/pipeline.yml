@@ -50,6 +50,7 @@ jobs:
         run: npx playwright test --project=chromium /tests/bookApp.spec.js
         env: 
           TEST_DATABASE: postgres://postgres:testing@localhost:5432/postgres
+          SECRET: example123
         working-directory: ./
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
