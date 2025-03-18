@@ -1,6 +1,18 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import {
+  Container,
+  ThemeProvider,
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Button,
+  Typography,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+
 import { initializeBooks } from "./reducers/bookReducer";
 import { getUserData } from "./reducers/userReducer";
 import Booklist from "./components/BookList";
@@ -18,7 +30,15 @@ import Userlist from "./components/Userlist";
 import Reservationlist from "./components/Reservationlist";
 import Ratinglist from "./components/Ratinglist";
 import UserDataAdmin from "./components/UserDataAdmin";
-import { Page, NavBar, UpperBar, Footer } from "./components/Styles";
+import { theme } from "./theme";
+// import { Page, NavBar, UpperBar, Footer } from "./components/Styles";
+
+// const theme = createTheme({
+//   typography: {
+//     fontFamily: ["Futura", "sans-serif"],
+//     fontSize: 14,
+//   },
+// });
 
 const Home = ({ user }) => {
   let reservationsForCollection = false;
@@ -33,13 +53,21 @@ const Home = ({ user }) => {
 
   return (
     <div>
-      <h1>Welcome to the book app</h1>
-      <p>Here you can borrow books and return your loans.</p>
+      <Typography
+        variant="h4"
+        color="main"
+        sx={{ marginTop: 5, marginBottom: 5 }}
+      >
+        Welcome to the book app
+      </Typography>
+      <Typography variant="body1" color="main">
+        Here you can borrow books and return your loans.
+      </Typography>
       {reservationsForCollection ? (
-        <p>
+        <Typography variant="body1" color="main">
           You have reservations that are ready for collection. Please remember
           to borrow them at your own page!
-        </p>
+        </Typography>
       ) : (
         ""
       )}
@@ -66,93 +94,162 @@ const App = () => {
   const user = useSelector((state) => state.user);
 
   return (
-    <Page>
-      <Router>
-        <div>
-          <UpperBar>
-            {user ? (
-              <>
-                <Link style={padding} to="/logout">
-                  log out
-                </Link>
-              </>
-            ) : (
-              <Link style={padding} to="/login">
-                log in
-              </Link>
-            )}
-          </UpperBar>
-        </div>
-        <div style={{ display: "flex" }}>
-          <NavBar>
-            <Link style={padding} to="/">
-              home
-            </Link>
-            <br></br>
-            {user ? (
-              <>
-                {" "}
-                <Link style={padding} to="/user">
-                  my page
+    <Container sx={{ bgcolor: "#ffe8e8", minHeight: "100vh" }} maxWidth={false}>
+      <ThemeProvider theme={theme}>
+        {/* <Page> */}
+        <Router>
+          {/* <div>
+              <UpperBar>
+                {user ? (
+                  <>
+                    <Link style={padding} to="/logout">
+                      log out
+                    </Link>
+                  </>
+                ) : (
+                  <Link style={padding} to="/login">
+                    log in
+                  </Link>
+                )}
+              </UpperBar>
+            </div> */}
+          <Box sx={{ flexGrow: 1 }}>
+            <AppBar sx={{ bgcolor: "#3c6d75" }} position="static">
+              <Toolbar>
+                <IconButton
+                  size="large"
+                  edge="start"
+                  color="inherit"
+                  aria-label="menu"
+                  sx={{ mr: 2 }}
+                >
+                  <MenuIcon />
+                </IconButton>
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                  <Link style={padding} to="/">
+                    home
+                  </Link>
+                  {user ? (
+                    <>
+                      {" "}
+                      <Link style={padding} to="/user">
+                        my page
+                      </Link>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  <Link style={padding} to="/books">
+                    books
+                  </Link>
+                  {user && user.admin ? (
+                    <>
+                      {" "}
+                      <Link style={padding} to="/loans">
+                        loans
+                      </Link>
+                      <Link style={padding} to="/reservations">
+                        reservations
+                      </Link>
+                      <Link style={padding} to="/ratings">
+                        ratings
+                      </Link>
+                      <Link style={padding} to="/users">
+                        users
+                      </Link>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </Typography>
+                <Button color="inherit">
+                  {user ? (
+                    <>
+                      <Link style={padding} to="/logout">
+                        log out
+                      </Link>
+                    </>
+                  ) : (
+                    <Link style={padding} to="/login">
+                      log in
+                    </Link>
+                  )}
+                </Button>
+              </Toolbar>
+            </AppBar>
+          </Box>
+          {/* <div style={{ display: "flex" }}>
+              <NavBar>
+                <Link style={padding} to="/">
+                  home
                 </Link>
                 <br></br>
-              </>
-            ) : (
-              <></>
-            )}
-            <Link style={padding} to="/books">
-              books
-            </Link>
-            <br></br>
-            {user && user.admin ? (
-              <>
-                {" "}
-                <Link style={padding} to="/loans">
-                  loans
+                {user ? (
+                  <>
+                    {" "}
+                    <Link style={padding} to="/user">
+                      my page
+                    </Link>
+                    <br></br>
+                  </>
+                ) : (
+                  <></>
+                )}
+                <Link style={padding} to="/books">
+                  books
                 </Link>
                 <br></br>
-                <Link style={padding} to="/reservations">
-                  reservations
-                </Link>
-                <br></br>
-                <Link style={padding} to="/ratings">
-                  ratings
-                </Link>
-                <br></br>
-                <Link style={padding} to="/users">
-                  users
-                </Link>
-              </>
-            ) : (
-              <></>
-            )}
-          </NavBar>
-          <div>
-            <Notification></Notification>
-            <Routes>
-              <Route path="/books" element={<Booklist />} />
-              <Route path="/books/:id" element={<Book />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Registration />} />
-              <Route path="/logout" element={<Logout />} />
-              <Route path="/user" element={<User />} />
-              <Route path="/userdata" element={<UserData />} />
-              <Route path="/" element={<Home user={user} />} />
-              <Route path="/addBook" element={<BookForm />} />
-              <Route path="/bookdata/:id" element={<BookData />} />
-              <Route path="/loans" element={<Loanlist />} />
-              <Route path="/reservations" element={<Reservationlist />} />
-              <Route path="/users" element={<Userlist />} />
-              <Route path="/users/:id" element={<UserDataAdmin />} />
-              <Route path="/ratings" element={<Ratinglist />} />
-            </Routes>
-          </div>
-        </div>
-      </Router>
-      <Footer>
-        <em>Book app 2024</em>
-      </Footer>
-    </Page>
+                {user && user.admin ? (
+                  <>
+                    {" "}
+                    <Link style={padding} to="/loans">
+                      loans
+                    </Link>
+                    <br></br>
+                    <Link style={padding} to="/reservations">
+                      reservations
+                    </Link>
+                    <br></br>
+                    <Link style={padding} to="/ratings">
+                      ratings
+                    </Link>
+                    <br></br>
+                    <Link style={padding} to="/users">
+                      users
+                    </Link>
+                  </>
+                ) : (
+                  <></>
+                )}
+              </NavBar>
+              <div> */}
+          <Notification></Notification>
+          <Routes>
+            <Route path="/books" element={<Booklist />} />
+            <Route path="/books/:id" element={<Book />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Registration />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/user" element={<User />} />
+            <Route path="/userdata" element={<UserData />} />
+            <Route path="/" element={<Home user={user} />} />
+            <Route path="/addBook" element={<BookForm />} />
+            <Route path="/bookdata/:id" element={<BookData />} />
+            <Route path="/loans" element={<Loanlist />} />
+            <Route path="/reservations" element={<Reservationlist />} />
+            <Route path="/users" element={<Userlist />} />
+            <Route path="/users/:id" element={<UserDataAdmin />} />
+            <Route path="/ratings" element={<Ratinglist />} />
+          </Routes>
+          {/* </div>
+            </div>  */}
+        </Router>
+        {/* <Footer>
+            <em>Book app 2024</em>
+          </Footer> */}
+        {/* </Page> */}
+      </ThemeProvider>
+    </Container>
   );
 };
 

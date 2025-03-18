@@ -1,4 +1,6 @@
 import { useDispatch } from "react-redux";
+import { TableBody, TableCell, TableRow } from "@mui/material";
+
 import { removeLoan } from "../reducers/loanReducer";
 import { renewLoan } from "../reducers/loanReducer";
 import { getUserData } from "../reducers/userReducer";
@@ -46,20 +48,22 @@ const Loan = ({ loan }) => {
   };
 
   return (
-    <tbody>
-      <tr>
-        <td>
-          {loan.book.title} by {loan.book.author}{" "}
-        </td>
-        <td>due date: {formatDate(loan.dueDate)}</td>
-        <td>
+    <TableBody>
+      <TableRow>
+        <TableCell sx={{ color: "#54a4a6" }}>
+          {loan.book.title} by {loan.book.author}
+        </TableCell>
+        <TableCell sx={{ color: "#54a4a6" }}>
+          {formatDate(loan.dueDate)}
+        </TableCell>
+        <TableCell>
           <Button onClick={() => returnBook(loan.id)}>Return</Button>
-        </td>
-        <td>
+        </TableCell>
+        <TableCell>
           <Button onClick={() => renewCurrentLoan(loan.id)}>Renew</Button>
-        </td>
-      </tr>
-    </tbody>
+        </TableCell>
+      </TableRow>
+    </TableBody>
   );
 };
 

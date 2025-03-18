@@ -1,4 +1,6 @@
 import { useDispatch } from "react-redux";
+import { TableBody, TableCell, TableRow } from "@mui/material";
+
 import { removeReservation } from "../reducers/reservationReducer";
 import { getUserData } from "../reducers/userReducer";
 import { setNotification } from "../reducers/notificationReducer.js";
@@ -36,37 +38,35 @@ const Reservation = ({ reservation }) => {
     );
   };
 
-  if (reservation.available) {
-    return (
-      <tbody>
-        <tr>
-          <td>
-            {reservation.book.title} by {reservation.book.author}
-          </td>
-          <td>{formatDate(reservation.dueDate)}</td>
-          <td>
-            <Button onClick={() => remove(reservation.id)}> Cancel </Button>
-          </td>
-          <td>
-            <Button onClick={() => borrow()}> Borrow </Button>
-          </td>
-        </tr>
-      </tbody>
-    );
-  } else {
-    return (
-      <tbody>
-        <tr>
-          <td>
-            {reservation.book.title} by {reservation.book.author}
-          </td>
-          <td>
-            <Button onClick={() => remove(reservation.id)}> Cancel </Button>
-          </td>
-        </tr>
-      </tbody>
-    );
-  }
+  return (
+    <TableBody>
+      <TableRow>
+        <TableCell sx={{ color: "#54a4a6" }}>
+          {reservation.book.title} by {reservation.book.author}
+        </TableCell>
+        {reservation.available ? (
+          <>
+            <TableCell sx={{ color: "#54a4a6" }}>
+              {formatDate(reservation.dueDate)}
+            </TableCell>
+            <TableCell>
+              <Button onClick={() => remove(reservation.id)}> Cancel </Button>
+            </TableCell>
+            <TableCell>
+              <Button onClick={() => borrow()}> Borrow </Button>
+            </TableCell>
+          </>
+        ) : (
+          <>
+            <TableCell sx={{ color: "#54a4a6" }}>Not available</TableCell>
+            <TableCell>
+              <Button onClick={() => remove(reservation.id)}> Cancel </Button>
+            </TableCell>
+          </>
+        )}
+      </TableRow>
+    </TableBody>
+  );
 };
 
 export default Reservation;

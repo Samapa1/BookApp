@@ -45,7 +45,7 @@ export const UpperBar = styled.div`
 `;
 
 export const Footer = styled.div`
-  background: #ff342f;
+  background: #3c6d75;
   color: #ffffff;
   padding: 1em;
   height: 30px;
