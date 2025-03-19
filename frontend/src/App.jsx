@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import {
   Container,
-  ThemeProvider,
   AppBar,
   Box,
   Toolbar,
@@ -11,6 +10,7 @@ import {
   Button,
   Typography,
 } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 
 import { initializeBooks } from "./reducers/bookReducer";
@@ -34,9 +34,18 @@ import { theme } from "./theme";
 // import { Page, NavBar, UpperBar, Footer } from "./components/Styles";
 
 // const theme = createTheme({
+//   palette: {
+//     primary: {
+//       main: "#366169",
+//     },
+//     secondary: {
+//       main: "#54a4a6",
+//     },
+//   },
 //   typography: {
 //     fontFamily: ["Futura", "sans-serif"],
 //     fontSize: 14,
+//     color: "#366169",
 //   },
 // });
 
@@ -53,24 +62,26 @@ const Home = ({ user }) => {
 
   return (
     <div>
-      <Typography
-        variant="h4"
-        color="main"
-        sx={{ marginTop: 5, marginBottom: 5 }}
-      >
-        Welcome to the book app
-      </Typography>
-      <Typography variant="body1" color="main">
-        Here you can borrow books and return your loans.
-      </Typography>
-      {reservationsForCollection ? (
-        <Typography variant="body1" color="main">
-          You have reservations that are ready for collection. Please remember
-          to borrow them at your own page!
+      <ThemeProvider theme={theme}>
+        <Typography
+          variant="h4"
+          color="primary"
+          sx={{ marginTop: 5, marginBottom: 5, marginLeft: 3 }}
+        >
+          Welcome to the book app
         </Typography>
-      ) : (
-        ""
-      )}
+        <Typography variant="body1" color="primary" sx={{ marginLeft: 3 }}>
+          Here you can borrow books and return your loans.
+        </Typography>
+        {reservationsForCollection ? (
+          <Typography variant="body1" color="primary" sx={{ marginLeft: 3 }}>
+            You have reservations that are ready for collection. Please remember
+            to borrow them at your own page!
+          </Typography>
+        ) : (
+          ""
+        )}
+      </ThemeProvider>
     </div>
   );
 };
@@ -96,23 +107,7 @@ const App = () => {
   return (
     <Container sx={{ bgcolor: "#ffe8e8", minHeight: "100vh" }} maxWidth={false}>
       <ThemeProvider theme={theme}>
-        {/* <Page> */}
         <Router>
-          {/* <div>
-              <UpperBar>
-                {user ? (
-                  <>
-                    <Link style={padding} to="/logout">
-                      log out
-                    </Link>
-                  </>
-                ) : (
-                  <Link style={padding} to="/login">
-                    log in
-                  </Link>
-                )}
-              </UpperBar>
-            </div> */}
           <Box sx={{ flexGrow: 1 }}>
             <AppBar sx={{ bgcolor: "#3c6d75" }} position="static">
               <Toolbar>
@@ -178,51 +173,6 @@ const App = () => {
               </Toolbar>
             </AppBar>
           </Box>
-          {/* <div style={{ display: "flex" }}>
-              <NavBar>
-                <Link style={padding} to="/">
-                  home
-                </Link>
-                <br></br>
-                {user ? (
-                  <>
-                    {" "}
-                    <Link style={padding} to="/user">
-                      my page
-                    </Link>
-                    <br></br>
-                  </>
-                ) : (
-                  <></>
-                )}
-                <Link style={padding} to="/books">
-                  books
-                </Link>
-                <br></br>
-                {user && user.admin ? (
-                  <>
-                    {" "}
-                    <Link style={padding} to="/loans">
-                      loans
-                    </Link>
-                    <br></br>
-                    <Link style={padding} to="/reservations">
-                      reservations
-                    </Link>
-                    <br></br>
-                    <Link style={padding} to="/ratings">
-                      ratings
-                    </Link>
-                    <br></br>
-                    <Link style={padding} to="/users">
-                      users
-                    </Link>
-                  </>
-                ) : (
-                  <></>
-                )}
-              </NavBar>
-              <div> */}
           <Notification></Notification>
           <Routes>
             <Route path="/books" element={<Booklist />} />
@@ -241,8 +191,6 @@ const App = () => {
             <Route path="/users/:id" element={<UserDataAdmin />} />
             <Route path="/ratings" element={<Ratinglist />} />
           </Routes>
-          {/* </div>
-            </div>  */}
         </Router>
         {/* <Footer>
             <em>Book app 2024</em>

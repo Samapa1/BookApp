@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import PasswordField from "./PasswordField.jsx";
 import { setNotification } from "../reducers/notificationReducer.js";
 import userService from "../services/users";
-import { Button, Input } from "./Styles";
+import { TextField, Button } from "@mui/material";
 
 const Registration = () => {
   const dispatch = useDispatch();
@@ -77,19 +77,18 @@ const Registration = () => {
       <h2>Register</h2>
       <form onSubmit={handleRegistration}>
         <div>
-          name
-          <Input
-            data-testid="name"
-            type="text"
+          <TextField
+            id="outlined-controlled"
+            label="Name"
             value={name}
-            name="name"
             onChange={({ target }) => setName(target.value)}
           />
         </div>
         <div>
-          email
-          <Input
+          <TextField
+            id="outlined-controlled"
             data-testid="email"
+            label="Email"
             type="text"
             value={email}
             name="name"
@@ -97,9 +96,10 @@ const Registration = () => {
           />
         </div>
         <div>
-          username
-          <Input
+          <TextField
+            id="outlined-controlled"
             data-testid="username"
+            label="Username"
             type="text"
             value={username}
             name="Username"
@@ -107,16 +107,21 @@ const Registration = () => {
           />
         </div>
         <PasswordField
-          inputText={"password"}
           password={password}
           handleChange={({ target }) => setPassword(target.value)}
         />
         <PasswordField
-          inputText={"confirm password"}
           password={password2}
           handleChange={({ target }) => setPassword2(target.value)}
         />
-        <Button type="submit">register</Button>
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ marginTop: 2 }}
+          type="submit"
+        >
+          register
+        </Button>
       </form>
     </>
   );

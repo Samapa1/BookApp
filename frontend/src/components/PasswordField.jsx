@@ -1,32 +1,49 @@
 import { useState } from "react";
-import { IoEyeOutline } from "react-icons/io5";
-import { IoEyeOffOutline } from "react-icons/io5";
-import { Input } from "./Styles";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { TextField, FormControl } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
 
-const PasswordField = ({ inputText, password, handleChange }) => {
-  const [type, setType] = useState("password");
-  const [icon, setIcon] = useState(<IoEyeOffOutline />);
+const PasswordField = ({ password, handleChange }) => {
+  const [showPassword, setShowPassword] = useState(false);
 
   const handlePasswordVisibility = () => {
-    if (type === "password") {
-      setIcon(<IoEyeOutline />);
-      setType("text");
+    if (showPassword) {
+      setShowPassword(false);
     } else {
-      setIcon(<IoEyeOffOutline />);
-      setType("password");
+      setShowPassword(true);
     }
   };
   return (
     <div>
-      {inputText}
-      <Input
-        data-testid="password"
-        type={type}
-        value={password}
-        name="Password"
-        onChange={handleChange}
-      />
-      <span onClick={handlePasswordVisibility}>{icon}</span>
+      <FormControl sx={{ m: 1, width: "30ch" }} variant="outlined">
+        <TextField
+          id="outlined-controlled"
+          type={showPassword ? "text" : "password"}
+          label="Password"
+          value={password}
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label={
+                      showPassword
+                        ? "hide the password"
+                        : "display the password"
+                    }
+                    onClick={handlePasswordVisibility}
+                  >
+                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            },
+          }}
+          onChange={handleChange}
+        />
+      </FormControl>
     </div>
   );
 };

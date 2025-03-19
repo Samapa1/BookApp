@@ -4,7 +4,11 @@ import { Link } from "react-router-dom";
 import { loginUser } from "../reducers/userReducer.js";
 import { useNavigate } from "react-router-dom";
 import { setNotification } from "../reducers/notificationReducer.js";
-import { Button, Input, linkStyle2 } from "./Styles";
+import { linkStyle2 } from "./Styles";
+import { TextField, Button, FormControl, Typography } from "@mui/material";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import InputAdornment from "@mui/material/InputAdornment";
+
 import PasswordField from "./PasswordField.jsx";
 
 const Login = () => {
@@ -39,23 +43,39 @@ const Login = () => {
 
   return (
     <>
-      <h2>Log in to application</h2>
+      <Typography variant="h5" sx={{ m: 2, marginTop: 5 }}>
+        Log in to application
+      </Typography>
       <form onSubmit={handleLogin}>
         <div>
-          username
-          <Input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-          />
+          <FormControl sx={{ m: 1, width: "30ch" }} variant="outlined">
+            <TextField
+              id="outlined-controlled"
+              label="Username"
+              username={username}
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <AccountCircle />
+                    </InputAdornment>
+                  ),
+                },
+              }}
+              // variant="standard"
+              onChange={({ target }) => setUsername(target.value)}
+            />
+          </FormControl>
         </div>
         <PasswordField
           inputText={"password"}
           password={password}
           handleChange={({ target }) => setPassword(target.value)}
         />
-        <Button type="submit">log in</Button>
+        <br></br>
+        <Button variant="contained" color="primary" sx={{ m: 1 }} type="submit">
+          login
+        </Button>
       </form>
       <div>
         <br />

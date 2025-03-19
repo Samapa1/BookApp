@@ -1,11 +1,10 @@
 import { useDispatch } from "react-redux";
-import { TableBody, TableCell, TableRow } from "@mui/material";
+import { TableBody, TableCell, TableRow, Button } from "@mui/material";
 
 import { removeReservation } from "../reducers/reservationReducer";
 import { getUserData } from "../reducers/userReducer";
 import { setNotification } from "../reducers/notificationReducer.js";
 import { collectReservation } from "../reducers/reservationReducer";
-import { Button } from "./Styles";
 import { formatDate } from "../../utils/helper.js";
 
 const Reservation = ({ reservation }) => {
@@ -60,7 +59,10 @@ const Reservation = ({ reservation }) => {
           <>
             <TableCell sx={{ color: "#54a4a6" }}>Not available</TableCell>
             <TableCell>
-              <Button onClick={() => remove(reservation.id)}> Cancel </Button>
+              <Button color="secondary" onClick={() => remove(reservation.id)}>
+                {" "}
+                Cancel{" "}
+              </Button>
             </TableCell>
           </>
         )}

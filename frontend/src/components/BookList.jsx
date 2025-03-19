@@ -3,6 +3,16 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { linkStyle1, linkStyle2 } from "./Styles";
 import { Input } from "./Styles";
+import {
+  Table,
+  TableHead,
+  TableCell,
+  TableContainer,
+  TableRow,
+  TableBody,
+  Paper,
+  Typography,
+} from "@mui/material";
 
 const Booklist = () => {
   const user = useSelector((state) => state.user);
@@ -15,7 +25,7 @@ const Booklist = () => {
     return (
       <div>
         <label>
-          filter books:
+          <Typography variant="body1">filter books:</Typography>
           <Input
             value={filtered}
             onChange={({ target }) => setFilter(target.value)}
@@ -43,7 +53,7 @@ const Booklist = () => {
           onChange={() => setFictionality("nonfiction")}
           checked={fictionality === "nonfiction"}
         />
-        <label htmlFor="nonfiction">non-fiction</label>
+        <label htmlFor="nonfiction"> non-fiction</label>
       </div>
     );
   };
@@ -56,31 +66,67 @@ const Booklist = () => {
 
   return (
     <div>
-      <>
-        <h1>Books</h1>
-        {filterBooks()}
-        {radioFilter()}
-        <br></br>
-        {fictionality === "fiction"
-          ? booksToShow
-              .filter((book) => book.class === "84.2" || book.class === "85")
-              .map((book) => (
-                <div key={book.id}>
-                  <Link style={linkStyle1} to={`/books/${book.id}`}>
-                    {book.title} by {book.author}
-                  </Link>
-                </div>
-              ))
-          : booksToShow
-              .filter((book) => book.class !== "84.2" && book.class !== "85")
-              .map((book) => (
-                <div key={book.id}>
-                  <Link style={linkStyle1} to={`/books/${book.id}`}>
-                    {book.title} by {book.author}
-                  </Link>
-                </div>
-              ))}
-      </>
+      <Typography variant="h4" sx={{ marginTop: 5, marginBottom: 3 }}>
+        Books
+      </Typography>
+      {filterBooks()}
+      {radioFilter()}
+      <br></br>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell sx={{ color: "#3c6d75", fontWeight: "bold" }}>
+                Title
+              </TableCell>
+              <TableCell sx={{ color: "#3c6d75", fontWeight: "bold" }}>
+                Author
+              </TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {fictionality === "fiction"
+              ? booksToShow
+                  .filter(
+                    (book) => book.class === "84.2" || book.class === "85",
+                  )
+                  .map((book) => (
+                    <TableRow key={book.id}>
+                      <TableCell>
+                        <Link style={linkStyle1} to={`/books/${book.id}`}>
+                          {book.title}
+                        </Link>
+                      </TableCell>
+                      <TableCell sx={{ color: "#3c6d75" }}>
+                        {book.author}
+                      </TableCell>
+                    </TableRow>
+                  ))
+              : //     :
+                //   }
+
+                // ))
+                booksToShow
+                  .filter(
+                    (book) => book.class !== "84.2" && book.class !== "85",
+                  )
+                  .map((book) => (
+                    <TableRow key={book.id}>
+                      <TableCell>
+                        <Link style={linkStyle1} to={`/books/${book.id}`}>
+                          {book.title}
+                        </Link>
+                      </TableCell>
+                      <TableCell sx={{ color: "#3c6d75" }}>
+                        {book.author}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
       <br></br>
       {user && user.admin ? (
         <Link style={linkStyle2} to={`/addBook`}>
