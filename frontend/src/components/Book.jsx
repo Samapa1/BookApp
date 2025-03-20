@@ -1,14 +1,15 @@
 import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { Typography, Container, Button } from "@mui/material";
+
 import { addLoan } from "../reducers/loanReducer.js";
 import { addReservation } from "../reducers/reservationReducer.js";
 import { getUserData } from "../reducers/userReducer";
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer.js";
 import statusService from "../services/status";
-import { Button, linkStyle2, pstyle } from "./Styles";
 import StarRating from "./StarRating";
 import StarBar from "./StarBar";
 import BasicBookData from "./BasicBookData.jsx";
@@ -97,57 +98,86 @@ const Book = () => {
 
   if (book && user) {
     return (
-      <div>
+      <Container sx={{ marginLeft: 1 }}>
         <BasicBookData book={book} />
-        <div style={pstyle}>
-          {!borrowed && available && !reserved ? (
-            <Button onClick={borrow}>Borrow</Button>
-          ) : null}
-          {borrowed ? <p>You have borrowed the book.</p> : null}
-          <p>Reservations: {numberOfReservations}</p>
-          {reserved ? <p>You have reserved the book.</p> : null}
-          {!available && !borrowed && !reserved ? (
-            <Button onClick={reserve}>Reserve</Button>
-          ) : null}
-        </div>
-        <div style={pstyle}>
-          <p>Your rating:</p>
-          <StarRating id={book.id} />
-          <p>Average: {book.rating.toFixed(2)}</p>
-        </div>
+        {!borrowed && available && !reserved ? (
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ marginBottom: 2 }}
+            onClick={borrow}
+          >
+            Borrow
+          </Button>
+        ) : null}
+        {borrowed ? (
+          <Typography variant="body1" sx={{ marginTop: 2, marginBottom: 3 }}>
+            You have borrowed the book.
+          </Typography>
+        ) : null}
+        <Typography variant="body1" sx={{ marginTop: 2, marginBottom: 3 }}>
+          Reservations: {numberOfReservations}
+        </Typography>
+        {reserved ? (
+          <Typography variant="body1" sx={{ marginTop: 2, marginBottom: 3 }}>
+            You have reserved the book.
+          </Typography>
+        ) : null}
+        {!available && !borrowed && !reserved ? (
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ marginBottom: 2 }}
+            onClick={reserve}
+          >
+            Reserve
+          </Button>
+        ) : null}
+        <Typography variant="body1">Your rating:</Typography>
+        <StarRating id={book.id} />
+        <Typography variant="body1" sx={{ marginTop: 1 }}>
+          Average: {book.rating.toFixed(2)}
+        </Typography>
         <br />
         {user && user.admin ? (
-          <Link style={linkStyle2} to={`/bookdata/${book.id}`}>
+          <Link
+            style={{ color: "#54A4A6", fontFamily: ["Futura", "sans-serif"] }}
+            to={`/bookdata/${book.id}`}
+          >
             Change book details or delete it from the database.
           </Link>
         ) : (
           <></>
         )}
-      </div>
+      </Container>
     );
   }
   if (book) {
     return (
-      <div>
+      <Container>
         <BasicBookData book={book} />
-        <div style={pstyle}>
-          {available ? (
-            <p>The book is available.</p>
-          ) : (
-            <p>The book is not available (all items are borrowed).</p>
-          )}
-        </div>
-        <div style={pstyle}>
-          <p>Rating</p>
-          <StarBar book={book} />
-        </div>
         {available ? (
-          <p>Please log in to borrow or rate the book.</p>
+          <Typography variant="body1" sx={{ marginTop: 2, marginBottom: 2 }}>
+            The book is available.
+          </Typography>
         ) : (
-          <p>Please log in to reserve or rate the book.</p>
+          <Typography variant="body1" sx={{ marginTop: 2, marginBottom: 2 }}>
+            The book is not available (all items are borrowed).
+          </Typography>
+        )}
+        <Typography variant="body1">Rating</Typography>
+        <StarBar book={book} />
+        {available ? (
+          <Typography variant="body1" sx={{ marginTop: 2 }}>
+            Please log in to borrow or rate the book.
+          </Typography>
+        ) : (
+          <Typography variant="body1" sx={{ marginTop: 2 }}>
+            Please log in to reserve or rate the book.
+          </Typography>
         )}
         <br />
-      </div>
+      </Container>
     );
   }
 };

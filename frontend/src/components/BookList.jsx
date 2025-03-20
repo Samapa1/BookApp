@@ -2,7 +2,6 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { linkStyle1, linkStyle2 } from "./Styles";
-import { Input } from "./Styles";
 import {
   Table,
   TableHead,
@@ -17,7 +16,10 @@ import {
   FormControlLabel,
   FormControl,
   Radio,
+  TextField,
 } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import InputAdornment from "@mui/material/InputAdornment";
 
 const Booklist = () => {
   const user = useSelector((state) => state.user);
@@ -27,21 +29,28 @@ const Booklist = () => {
 
   const filterBooks = () => {
     return (
-      <div>
-        <label>
-          <Typography variant="body1">filter books:</Typography>
-          <Input
-            value={filtered}
-            onChange={({ target }) => setFilter(target.value)}
-          />
-        </label>
-      </div>
+      <FormControl sx={{ width: "30ch", marginBottom: 2 }} variant="outlined">
+        <TextField
+          id="outlined-controlled"
+          label="Search"
+          value={filtered}
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            },
+          }}
+          onChange={({ target }) => setFilter(target.value)}
+        />
+      </FormControl>
     );
   };
 
   const radioFilter = () => {
     const handleFictionality = (event) => {
-      console.log(event.target.value);
       setFictionality(event.target.value);
     };
     return (
@@ -75,11 +84,12 @@ const Booklist = () => {
   );
 
   return (
-    <Container sx={{ marginLeft: 1 }}>
+    <Container sx={{ marginLeft: 1, paddingBottom: 5 }}>
       <Typography variant="h4" sx={{ marginTop: 5, marginBottom: 3 }}>
         Books
       </Typography>
       {filterBooks()}
+      <br />
       {radioFilter()}
       <TableContainer component={Paper} sx={{ marginTop: 5 }}>
         <Table>

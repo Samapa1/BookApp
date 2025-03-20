@@ -40,7 +40,7 @@ const User = () => {
 
   if (user) {
     return (
-      <Container sx={{ marginLeft: 1 }}>
+      <Container sx={{ marginLeft: 1, paddingBottom: 5 }}>
         <Typography variant="h4" sx={{ marginTop: 5, marginBottom: 3 }}>
           User
         </Typography>

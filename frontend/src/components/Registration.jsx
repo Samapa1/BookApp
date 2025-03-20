@@ -41,7 +41,7 @@ const Registration = () => {
       await dispatch(
         setNotification(
           {
-            data: `Password must have at least 8 characters (including at least one number)`,
+            data: `Password must have at least 8 characters (including at least one number).`,
             type: "error",
           },
           4000,
@@ -88,7 +88,10 @@ const Registration = () => {
         Register
       </Typography>
       <form onSubmit={handleRegistration}>
-        <FormControl sx={{ marginTop: 1, width: "30ch" }} variant="outlined">
+        <FormControl
+          sx={{ marginTop: 1, width: "30ch", backgroundColor: "white" }}
+          variant="outlined"
+        >
           <TextField
             id="outlined-controlled"
             data-testid="name"
@@ -109,7 +112,10 @@ const Registration = () => {
           />
         </FormControl>
         <br />
-        <FormControl sx={{ marginTop: 1, width: "30ch" }} variant="outlined">
+        <FormControl
+          sx={{ marginTop: 1, width: "30ch", backgroundColor: "white" }}
+          variant="outlined"
+        >
           <TextField
             id="outlined-controlled"
             data-testid="email"
@@ -130,7 +136,10 @@ const Registration = () => {
           />
         </FormControl>
         <br />
-        <FormControl sx={{ marginTop: 1, width: "30ch" }} variant="outlined">
+        <FormControl
+          sx={{ marginTop: 1, width: "30ch", backgroundColor: "white" }}
+          variant="outlined"
+        >
           <TextField
             id="outlined-controlled"
             data-testid="username"
@@ -151,10 +160,12 @@ const Registration = () => {
           />
         </FormControl>
         <PasswordField
+          inputText={"Password"}
           password={password}
           handleChange={({ target }) => setPassword(target.value)}
         />
         <PasswordField
+          inputText={"Confirm password"}
           password={password2}
           handleChange={({ target }) => setPassword2(target.value)}
         />

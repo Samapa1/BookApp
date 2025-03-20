@@ -44,6 +44,7 @@ const Home = ({ user }) => {
   }
 
   return (
+    // <>
     <Container sx={{ marginLeft: 1 }}>
       <ThemeProvider theme={theme}>
         <Typography
@@ -175,10 +176,6 @@ const App = () => {
             <Route path="/ratings" element={<Ratinglist />} />
           </Routes>
         </Router>
-        {/* <Footer>
-            <em>Book app 2024</em>
-          </Footer> */}
-        {/* </Page> */}
       </ThemeProvider>
     </Container>
   );

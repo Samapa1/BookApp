@@ -7,8 +7,18 @@ import { getUserData } from "../reducers/userReducer";
 import { updateUser } from "../reducers/userReducer";
 import { removeUser } from "../reducers/userReducer";
 import { setNotification } from "../reducers/notificationReducer";
-import { Button, Input } from "./Styles";
 import PasswordField from "./PasswordField";
+import {
+  TextField,
+  Button,
+  FormControl,
+  Container,
+  Typography,
+} from "@mui/material";
+import EmailIcon from "@mui/icons-material/Email";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
 
 const UserData = () => {
   const [nameOfTheUser, setName] = useState("");
@@ -90,6 +100,9 @@ const UserData = () => {
           newPassword2: newPassword2,
         }),
       );
+      setPassword("");
+      setNewPassword("");
+      setNewPassword2("");
       await dispatch(
         setNotification(
           { data: `Changes saved succesfully`, type: "info" },
@@ -108,47 +121,93 @@ const UserData = () => {
   };
 
   return (
-    <div>
-      <br></br>
+    <Container sx={{ marginLeft: 1, paddingBottom: 5 }}>
+      <Typography variant="h5" sx={{ marginBottom: 3, marginTop: 5 }}>
+        User details
+      </Typography>
       <form onSubmit={handleChanges}>
-        <div>
-          name
-          <Input
-            type="text"
+        <FormControl
+          sx={{ marginTop: 1, width: "30ch", backgroundColor: "white" }}
+          variant="outlined"
+        >
+          <TextField
+            id="outlined-controlled"
+            data-testid="name"
+            label="Name"
             value={nameOfTheUser}
-            name="nameOfTheUser"
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton disableRipple={true}>
+                      <AccountCircle />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
+            }}
             onChange={({ target }) => setName(target.value)}
           />
-        </div>
-        <div>
-          email
-          <Input
-            type="text"
+        </FormControl>
+        <br />
+        <FormControl
+          sx={{ marginTop: 1.5, width: "30ch", backgroundColor: "white" }}
+          variant="outlined"
+        >
+          <TextField
+            id="outlined-controlled"
+            data-testid="email"
+            label="Email"
             value={email}
-            name="email"
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton disableRipple={true}>
+                      <EmailIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
+            }}
             onChange={({ target }) => setEmail(target.value)}
           />
-        </div>
+        </FormControl>
+        <br />
         <PasswordField
-          inputText={"password"}
+          inputText={"Password"}
           password={password}
           handleChange={({ target }) => setPassword(target.value)}
         />
         <PasswordField
-          inputText={"new password"}
+          inputText={"New password"}
           password={newPassword}
           handleChange={({ target }) => setNewPassword(target.value)}
         />
         <PasswordField
-          inputText={"confirm new password"}
+          inputText={"Confirm new password"}
           password={newPassword2}
           handleChange={({ target }) => setNewPassword2(target.value)}
         />
-        <Button type="submit">Save changes</Button>
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ marginTop: 2, marginBottom: 2 }}
+          type="submit"
+        >
+          Save changes
+        </Button>
       </form>
       <br></br>
-      <Button onClick={() => handleRemoval()}>Delete account</Button>
-    </div>
+      <Button
+        variant="contained"
+        color="primary"
+        type="submit"
+        onClick={() => handleRemoval()}
+      >
+        Delete account
+      </Button>
+    </Container>
   );
 };
 

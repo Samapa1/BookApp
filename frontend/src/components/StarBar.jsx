@@ -10,6 +10,7 @@ const StarBar = ({ book, showHover = false, onClickEvent = null }) => {
   const userBookRating = userRatings?.find(
     (rating) => rating.bookId === book.id,
   );
+
   const stars = userBookRating?.stars;
 
   return (
@@ -31,5 +32,4 @@ const StarBar = ({ book, showHover = false, onClickEvent = null }) => {
     </div>
   );
 };
-
 export default StarBar;

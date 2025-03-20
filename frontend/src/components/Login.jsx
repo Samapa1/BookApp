@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { loginUser } from "../reducers/userReducer.js";
 import { useNavigate } from "react-router-dom";
 import { setNotification } from "../reducers/notificationReducer.js";
-import { linkStyle2 } from "./Styles";
 import {
   TextField,
   Button,
@@ -54,40 +53,47 @@ const Login = () => {
         Log in to application
       </Typography>
       <form onSubmit={handleLogin}>
-        <div>
-          <FormControl sx={{ width: "30ch" }} variant="outlined">
-            <TextField
-              id="outlined-controlled"
-              label="Username"
-              username={username}
-              slotProps={{
-                input: {
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton disableRipple={true}>
-                        <AccountCircle />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                },
-              }}
-              // variant="standard"
-              onChange={({ target }) => setUsername(target.value)}
-            />
-          </FormControl>
-        </div>
+        <FormControl
+          sx={{ width: "30ch", backgroundColor: "white" }}
+          variant="outlined"
+        >
+          <TextField
+            id="outlined-controlled"
+            label="Username"
+            username={username}
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton disableRipple={true}>
+                      <AccountCircle />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
+            }}
+            onChange={({ target }) => setUsername(target.value)}
+          />
+        </FormControl>
         <PasswordField
-          inputText={"password"}
+          inputText={"Password"}
           password={password}
           handleChange={({ target }) => setPassword(target.value)}
         />
-        <br></br>
-        <Button variant="contained" color="primary" type="submit">
+        <br />
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          sx={{ marginBottom: 5 }}
+        >
           login
         </Button>
       </form>
-      <br />
-      <Link style={linkStyle2} to={`/register`}>
+      <Link
+        style={{ color: "#54A4A6", fontFamily: ["Futura", "sans-serif"] }}
+        to={`/register`}
+      >
         Do not have an account yet? Please register.
       </Link>
     </Container>

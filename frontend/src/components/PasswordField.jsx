@@ -5,7 +5,7 @@ import { TextField, FormControl } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 
-const PasswordField = ({ password, handleChange }) => {
+const PasswordField = ({ inputText, password, handleChange }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handlePasswordVisibility = () => {
@@ -17,11 +17,14 @@ const PasswordField = ({ password, handleChange }) => {
   };
   return (
     <div>
-      <FormControl sx={{ marginTop: 1, width: "30ch" }} variant="outlined">
+      <FormControl
+        sx={{ marginTop: 1.5, width: "30ch", backgroundColor: "white" }}
+        variant="outlined"
+      >
         <TextField
           id="outlined-controlled"
           type={showPassword ? "text" : "password"}
-          label="Password"
+          label={inputText}
           value={password}
           slotProps={{
             input: {
