@@ -5,7 +5,14 @@ import { loginUser } from "../reducers/userReducer.js";
 import { useNavigate } from "react-router-dom";
 import { setNotification } from "../reducers/notificationReducer.js";
 import { linkStyle2 } from "./Styles";
-import { TextField, Button, FormControl, Typography } from "@mui/material";
+import {
+  TextField,
+  Button,
+  FormControl,
+  Typography,
+  Container,
+} from "@mui/material";
+import IconButton from "@mui/material/IconButton";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import InputAdornment from "@mui/material/InputAdornment";
 
@@ -42,13 +49,13 @@ const Login = () => {
   };
 
   return (
-    <>
-      <Typography variant="h5" sx={{ m: 2, marginTop: 5 }}>
+    <Container sx={{ marginLeft: 1 }}>
+      <Typography variant="h5" sx={{ marginBottom: 2, marginTop: 5 }}>
         Log in to application
       </Typography>
       <form onSubmit={handleLogin}>
         <div>
-          <FormControl sx={{ m: 1, width: "30ch" }} variant="outlined">
+          <FormControl sx={{ width: "30ch" }} variant="outlined">
             <TextField
               id="outlined-controlled"
               label="Username"
@@ -57,7 +64,9 @@ const Login = () => {
                 input: {
                   endAdornment: (
                     <InputAdornment position="end">
-                      <AccountCircle />
+                      <IconButton disableRipple={true}>
+                        <AccountCircle />
+                      </IconButton>
                     </InputAdornment>
                   ),
                 },
@@ -73,17 +82,15 @@ const Login = () => {
           handleChange={({ target }) => setPassword(target.value)}
         />
         <br></br>
-        <Button variant="contained" color="primary" sx={{ m: 1 }} type="submit">
+        <Button variant="contained" color="primary" type="submit">
           login
         </Button>
       </form>
-      <div>
-        <br />
-        <Link style={linkStyle2} to={`/register`}>
-          Do not have an account yet? Please register.
-        </Link>
-      </div>
-    </>
+      <br />
+      <Link style={linkStyle2} to={`/register`}>
+        Do not have an account yet? Please register.
+      </Link>
+    </Container>
   );
 };
 

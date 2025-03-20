@@ -12,6 +12,11 @@ import {
   TableBody,
   Paper,
   Typography,
+  Container,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+  Radio,
 } from "@mui/material";
 
 const Booklist = () => {
@@ -19,7 +24,6 @@ const Booklist = () => {
   const allBooks = useSelector((state) => state.books);
   const [filtered, setFilter] = useState("");
   const [fictionality, setFictionality] = useState("fiction");
-  console.log(allBooks);
 
   const filterBooks = () => {
     return (
@@ -36,25 +40,31 @@ const Booklist = () => {
   };
 
   const radioFilter = () => {
+    const handleFictionality = (event) => {
+      console.log(event.target.value);
+      setFictionality(event.target.value);
+    };
     return (
-      <div>
-        <input
-          id="fiction"
-          type="radio"
-          name="fictionality"
-          onChange={() => setFictionality("fiction")}
-          checked={fictionality === "fiction"}
-        />
-        <label htmlFor="fiction">fiction</label>
-        <input
-          id="nonfiction"
-          type="radio"
-          name="fictionality"
-          onChange={() => setFictionality("nonfiction")}
-          checked={fictionality === "nonfiction"}
-        />
-        <label htmlFor="nonfiction"> non-fiction</label>
-      </div>
+      <FormControl>
+        <RadioGroup
+          row
+          aria-labelledby="demo-controlled-radio-buttons-group"
+          name="controlled-radio-buttons-group"
+          value={fictionality}
+          onChange={handleFictionality}
+        >
+          <FormControlLabel
+            value="fiction"
+            control={<Radio />}
+            label="fiction"
+          />
+          <FormControlLabel
+            value="non-fiction"
+            control={<Radio />}
+            label="non-fiction"
+          />
+        </RadioGroup>
+      </FormControl>
     );
   };
 
@@ -65,14 +75,13 @@ const Booklist = () => {
   );
 
   return (
-    <div>
+    <Container sx={{ marginLeft: 1 }}>
       <Typography variant="h4" sx={{ marginTop: 5, marginBottom: 3 }}>
         Books
       </Typography>
       {filterBooks()}
       {radioFilter()}
-      <br></br>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ marginTop: 5 }}>
         <Table>
           <TableHead>
             <TableRow>
@@ -104,11 +113,7 @@ const Booklist = () => {
                       </TableCell>
                     </TableRow>
                   ))
-              : //     :
-                //   }
-
-                // ))
-                booksToShow
+              : booksToShow
                   .filter(
                     (book) => book.class !== "84.2" && book.class !== "85",
                   )
@@ -133,7 +138,7 @@ const Booklist = () => {
           Add a book
         </Link>
       ) : null}
-    </div>
+    </Container>
   );
 };
 

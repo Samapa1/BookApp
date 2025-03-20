@@ -17,7 +17,7 @@ const PasswordField = ({ password, handleChange }) => {
   };
   return (
     <div>
-      <FormControl sx={{ m: 1, width: "30ch" }} variant="outlined">
+      <FormControl sx={{ marginTop: 1, width: "30ch" }} variant="outlined">
         <TextField
           id="outlined-controlled"
           type={showPassword ? "text" : "password"}

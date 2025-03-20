@@ -21,17 +21,3 @@ export const theme = createTheme({
     },
   },
 });
-
-// export const theme = createTheme({
-//   palette: {
-//     primary: {
-//       light: "#54a4a6",
-//       main: "#366169",
-//     },
-//   },
-//   typography: {
-//     fontFamily: ["Futura", "sans-serif"],
-//     fontSize: 14,
-//     color: "#366169",
-//   },
-// });

@@ -31,23 +31,6 @@ import Reservationlist from "./components/Reservationlist";
 import Ratinglist from "./components/Ratinglist";
 import UserDataAdmin from "./components/UserDataAdmin";
 import { theme } from "./theme";
-// import { Page, NavBar, UpperBar, Footer } from "./components/Styles";
-
-// const theme = createTheme({
-//   palette: {
-//     primary: {
-//       main: "#366169",
-//     },
-//     secondary: {
-//       main: "#54a4a6",
-//     },
-//   },
-//   typography: {
-//     fontFamily: ["Futura", "sans-serif"],
-//     fontSize: 14,
-//     color: "#366169",
-//   },
-// });
 
 const Home = ({ user }) => {
   let reservationsForCollection = false;
@@ -61,20 +44,20 @@ const Home = ({ user }) => {
   }
 
   return (
-    <div>
+    <Container sx={{ marginLeft: 1 }}>
       <ThemeProvider theme={theme}>
         <Typography
           variant="h4"
           color="primary"
-          sx={{ marginTop: 5, marginBottom: 5, marginLeft: 3 }}
+          sx={{ marginTop: 5, marginBottom: 5 }}
         >
-          Welcome to the book app
+          Welcome to the book app!
         </Typography>
-        <Typography variant="body1" color="primary" sx={{ marginLeft: 3 }}>
+        <Typography variant="body1" color="primary">
           Here you can borrow books and return your loans.
         </Typography>
         {reservationsForCollection ? (
-          <Typography variant="body1" color="primary" sx={{ marginLeft: 3 }}>
+          <Typography variant="body1" color="primary">
             You have reservations that are ready for collection. Please remember
             to borrow them at your own page!
           </Typography>
@@ -82,7 +65,7 @@ const Home = ({ user }) => {
           ""
         )}
       </ThemeProvider>
-    </div>
+    </Container>
   );
 };
 

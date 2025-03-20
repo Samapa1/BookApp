@@ -1,8 +1,7 @@
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../reducers/userReducer";
 import { useNavigate } from "react-router-dom";
-import { Button, Typography } from "@mui/material";
-// import { Button } from "./Styles";
+import { Button, Typography, Container } from "@mui/material";
 
 const Logout = () => {
   const dispatch = useDispatch();
@@ -14,14 +13,14 @@ const Logout = () => {
   };
 
   return (
-    <div>
+    <Container sx={{ marginLeft: 1 }}>
       <Typography variant="h6" sx={{ marginTop: 5, marginBottom: 5 }}>
         Log out from the application?
       </Typography>
       <Button variant="contained" color="success" onClick={handleLogout}>
         log out
       </Button>
-    </div>
+    </Container>
   );
 };
 

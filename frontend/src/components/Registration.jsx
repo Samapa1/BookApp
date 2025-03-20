@@ -4,7 +4,17 @@ import { useNavigate } from "react-router-dom";
 import PasswordField from "./PasswordField.jsx";
 import { setNotification } from "../reducers/notificationReducer.js";
 import userService from "../services/users";
-import { TextField, Button } from "@mui/material";
+import {
+  TextField,
+  Button,
+  FormControl,
+  Container,
+  Typography,
+} from "@mui/material";
+import EmailIcon from "@mui/icons-material/Email";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
 
 const Registration = () => {
   const dispatch = useDispatch();
@@ -73,39 +83,73 @@ const Registration = () => {
   };
 
   return (
-    <>
-      <h2>Register</h2>
+    <Container sx={{ marginLeft: 1 }}>
+      <Typography variant="h5" sx={{ marginTop: 4, marginBottom: 2 }}>
+        Register
+      </Typography>
       <form onSubmit={handleRegistration}>
-        <div>
+        <FormControl sx={{ marginTop: 1, width: "30ch" }} variant="outlined">
           <TextField
             id="outlined-controlled"
+            data-testid="name"
             label="Name"
-            value={name}
+            name={name}
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton disableRipple={true}>
+                      <AccountCircle />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
+            }}
             onChange={({ target }) => setName(target.value)}
           />
-        </div>
-        <div>
+        </FormControl>
+        <br />
+        <FormControl sx={{ marginTop: 1, width: "30ch" }} variant="outlined">
           <TextField
             id="outlined-controlled"
             data-testid="email"
             label="Email"
-            type="text"
-            value={email}
-            name="name"
+            email={email}
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton disableRipple={true}>
+                      <EmailIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
+            }}
             onChange={({ target }) => setEmail(target.value)}
           />
-        </div>
-        <div>
+        </FormControl>
+        <br />
+        <FormControl sx={{ marginTop: 1, width: "30ch" }} variant="outlined">
           <TextField
             id="outlined-controlled"
             data-testid="username"
             label="Username"
-            type="text"
-            value={username}
-            name="Username"
+            username={username}
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton disableRipple={true}>
+                      <AccountCircle />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
+            }}
             onChange={({ target }) => setUsername(target.value)}
           />
-        </div>
+        </FormControl>
         <PasswordField
           password={password}
           handleChange={({ target }) => setPassword(target.value)}
@@ -117,13 +161,13 @@ const Registration = () => {
         <Button
           variant="contained"
           color="primary"
-          sx={{ marginTop: 2 }}
+          sx={{ marginTop: 3 }}
           type="submit"
         >
           register
         </Button>
       </form>
-    </>
+    </Container>
   );
 };
 
