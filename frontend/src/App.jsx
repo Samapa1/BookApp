@@ -89,95 +89,128 @@ const App = () => {
   const user = useSelector((state) => state.user);
 
   return (
-    <Container sx={{ bgcolor: "#ffe8e8", minHeight: "100vh" }} maxWidth={false}>
+    <>
       <ThemeProvider theme={theme}>
-        <Router>
-          <Box sx={{ flexGrow: 1 }}>
-            <AppBar sx={{ bgcolor: "#3c6d75" }} position="static">
-              <Toolbar>
-                <IconButton
-                  size="large"
-                  edge="start"
-                  color="inherit"
-                  aria-label="menu"
-                  sx={{ mr: 2 }}
-                >
-                  <MenuIcon />
-                </IconButton>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                  <Link style={padding} to="/">
-                    home
-                  </Link>
-                  {user ? (
-                    <>
-                      {" "}
-                      <Link style={padding} to="/user">
-                        my page
-                      </Link>
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                  <Link style={padding} to="/books">
-                    books
-                  </Link>
-                  {user && user.admin ? (
-                    <>
-                      {" "}
-                      <Link style={padding} to="/loans">
-                        loans
-                      </Link>
-                      <Link style={padding} to="/reservations">
-                        reservations
-                      </Link>
-                      <Link style={padding} to="/ratings">
-                        ratings
-                      </Link>
-                      <Link style={padding} to="/users">
-                        users
-                      </Link>
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                </Typography>
-                <Button color="inherit">
-                  {user ? (
-                    <>
-                      <Link style={padding} to="/logout">
-                        log out
-                      </Link>
-                    </>
-                  ) : (
-                    <Link style={padding} to="/login">
-                      log in
+        <Container
+          sx={{ bgcolor: "#ffe8e8", minHeight: "100vh" }}
+          maxWidth={false}
+        >
+          <Router>
+            <Box sx={{ flexGrow: 1 }}>
+              <AppBar sx={{ bgcolor: "#3c6d75" }} position="static">
+                <Toolbar>
+                  <IconButton
+                    size="large"
+                    edge="start"
+                    color="inherit"
+                    aria-label="menu"
+                    sx={{ mr: 2 }}
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                  <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    <Link style={padding} to="/">
+                      home
                     </Link>
-                  )}
-                </Button>
-              </Toolbar>
-            </AppBar>
+                    {user ? (
+                      <>
+                        {" "}
+                        <Link style={padding} to="/user">
+                          my page
+                        </Link>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                    <Link style={padding} to="/books">
+                      books
+                    </Link>
+                    {user && user.admin ? (
+                      <>
+                        {" "}
+                        <Link style={padding} to="/loans">
+                          loans
+                        </Link>
+                        <Link style={padding} to="/reservations">
+                          reservations
+                        </Link>
+                        <Link style={padding} to="/ratings">
+                          ratings
+                        </Link>
+                        <Link style={padding} to="/users">
+                          users
+                        </Link>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </Typography>
+                  <Button color="inherit">
+                    {user ? (
+                      <>
+                        <Link style={padding} to="/logout">
+                          log out
+                        </Link>
+                      </>
+                    ) : (
+                      <Link style={padding} to="/login">
+                        log in
+                      </Link>
+                    )}
+                  </Button>
+                </Toolbar>
+              </AppBar>
+            </Box>
+            <Notification></Notification>
+            <Routes>
+              <Route path="/books" element={<Booklist />} />
+              <Route path="/books/:id" element={<Book />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Registration />} />
+              <Route path="/logout" element={<Logout />} />
+              <Route path="/user" element={<User />} />
+              <Route path="/userdata" element={<UserData />} />
+              <Route path="/" element={<Home user={user} />} />
+              <Route path="/addBook" element={<BookForm />} />
+              <Route path="/bookdata/:id" element={<BookData />} />
+              <Route path="/loans" element={<Loanlist />} />
+              <Route path="/reservations" element={<Reservationlist />} />
+              <Route path="/users" element={<Userlist />} />
+              <Route path="/users/:id" element={<UserDataAdmin />} />
+              <Route path="/ratings" element={<Ratinglist />} />
+            </Routes>
+          </Router>
+        </Container>
+        <Container
+          sx={{
+            bgcolor: "#ffe8e8",
+            height: 20,
+            paddingBottom: 10,
+          }}
+          maxWidth={false}
+        >
+          <Box
+            variant="elevation"
+            sx={{
+              bgcolor: "#3c6d75",
+              boxShadow: [10, 10, 10, 10],
+              height: 15,
+              paddingBottom: 7,
+            }}
+            elevation={0}
+          >
+            <Typography
+              variant="body1"
+              fontStyle="italic"
+              color="white"
+              sx={{ paddingTop: 3, paddingLeft: 5 }}
+            >
+              BookApp 2025
+            </Typography>
           </Box>
-          <Notification></Notification>
-          <Routes>
-            <Route path="/books" element={<Booklist />} />
-            <Route path="/books/:id" element={<Book />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Registration />} />
-            <Route path="/logout" element={<Logout />} />
-            <Route path="/user" element={<User />} />
-            <Route path="/userdata" element={<UserData />} />
-            <Route path="/" element={<Home user={user} />} />
-            <Route path="/addBook" element={<BookForm />} />
-            <Route path="/bookdata/:id" element={<BookData />} />
-            <Route path="/loans" element={<Loanlist />} />
-            <Route path="/reservations" element={<Reservationlist />} />
-            <Route path="/users" element={<Userlist />} />
-            <Route path="/users/:id" element={<UserDataAdmin />} />
-            <Route path="/ratings" element={<Ratinglist />} />
-          </Routes>
-        </Router>
+        </Container>
       </ThemeProvider>
-    </Container>
+    </>
   );
 };
 

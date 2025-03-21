@@ -1,10 +1,20 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import {
+  Table,
+  TableHead,
+  TableCell,
+  TableContainer,
+  TableRow,
+  TableBody,
+  Paper,
+  Typography,
+  Container,
+  Button,
+} from "@mui/material";
 import { initializeLoans } from "../reducers/loanReducer.js";
-import { Button, Table } from "./Styles.jsx";
 import { removeLoan } from "../reducers/loanReducer";
 import { getUserData } from "../reducers/userReducer.js";
-import Notification from "./Notification.jsx";
 import { setNotification } from "../reducers/notificationReducer.js";
 import { formatDate } from "../../utils/helper.js";
 
@@ -45,38 +55,52 @@ const Loanlist = () => {
       return <div>ok</div>;
     }
   };
-
-  if (loanList.length > 0) {
-    return (
-      <div>
-        <Notification />
-        <h1>Loans</h1>
-        <Table>
-          <tbody>
-            <tr>
-              <th>User</th>
-              <th>Book</th>
-              <th>Due date</th>
-              <th>Status</th>
-              <th></th>
-            </tr>
-            {loanList.map((loan) => (
-              <tr key={loan.id}>
-                <td>{loan.user?.name}</td>
-                <td>{loan.book?.title}</td>
-                <td>{formatDate(loan.dueDate)}</td>
-                <td>{isLate(loan.dueDate)}</td>
-                <td>
-                  <Button onClick={() => returnLoan(loan)}>Return</Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      </div>
-    );
-  }
-  return <h1>Loans</h1>;
+  return (
+    <Container sx={{ marginLeft: 1, paddingBottom: 5 }}>
+      <Typography variant="h4" sx={{ marginTop: 5, marginBottom: 3 }}>
+        Loans
+      </Typography>
+      {loanList.length > 0 ? (
+        <TableContainer
+          component={Paper}
+          sx={{ marginTop: 5, paddingLeft: 1, paddingRight: 1 }}
+        >
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{ color: "#3c6d75", fontWeight: "bold" }}>
+                  User
+                </TableCell>
+                <TableCell sx={{ color: "#3c6d75", fontWeight: "bold" }}>
+                  Book
+                </TableCell>
+                <TableCell sx={{ color: "#3c6d75", fontWeight: "bold" }}>
+                  Due date
+                </TableCell>
+                <TableCell sx={{ color: "#3c6d75", fontWeight: "bold" }}>
+                  Status
+                </TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {loanList.map((loan) => (
+                <TableRow key={loan.id}>
+                  <TableCell>{loan.user?.name}</TableCell>
+                  <TableCell>{loan.book?.title}</TableCell>
+                  <TableCell>{formatDate(loan.dueDate)}</TableCell>
+                  <TableCell>{isLate(loan.dueDate)}</TableCell>
+                  <TableCell>
+                    <Button onClick={() => returnLoan(loan)}>Return</Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : null}
+    </Container>
+  );
 };
 
 export default Loanlist;

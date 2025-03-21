@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { linkStyle1, linkStyle2 } from "./Styles";
 import {
   Table,
   TableHead,
@@ -17,6 +16,7 @@ import {
   FormControl,
   Radio,
   TextField,
+  Box,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -91,7 +91,23 @@ const Booklist = () => {
       {filterBooks()}
       <br />
       {radioFilter()}
-      <TableContainer component={Paper} sx={{ marginTop: 5 }}>
+      {user && user.admin ? (
+        <Box sx={{ marginTop: 3, marginBottom: 3, paddingLeft: 0 }}>
+          <Link
+            style={{
+              color: "#54A4A6",
+              fontFamily: ["Futura", "sans-serif"],
+            }}
+            to={`/addBook`}
+          >
+            Add a book
+          </Link>
+        </Box>
+      ) : null}
+      <TableContainer
+        component={Paper}
+        sx={{ marginTop: 5, paddingLeft: 1, paddingRight: 1 }}
+      >
         <Table>
           <TableHead>
             <TableRow>
@@ -101,8 +117,6 @@ const Booklist = () => {
               <TableCell sx={{ color: "#3c6d75", fontWeight: "bold" }}>
                 Author
               </TableCell>
-              <TableCell></TableCell>
-              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -114,7 +128,13 @@ const Booklist = () => {
                   .map((book) => (
                     <TableRow key={book.id}>
                       <TableCell>
-                        <Link style={linkStyle1} to={`/books/${book.id}`}>
+                        <Link
+                          style={{
+                            color: "#54A4A6",
+                            fontFamily: ["Futura", "sans-serif"],
+                          }}
+                          to={`/books/${book.id}`}
+                        >
                           {book.title}
                         </Link>
                       </TableCell>
@@ -130,7 +150,13 @@ const Booklist = () => {
                   .map((book) => (
                     <TableRow key={book.id}>
                       <TableCell>
-                        <Link style={linkStyle1} to={`/books/${book.id}`}>
+                        <Link
+                          style={{
+                            color: "#54A4A6",
+                            fontFamily: ["Futura", "sans-serif"],
+                          }}
+                          to={`/books/${book.id}`}
+                        >
                           {book.title}
                         </Link>
                       </TableCell>
@@ -143,11 +169,6 @@ const Booklist = () => {
         </Table>
       </TableContainer>
       <br></br>
-      {user && user.admin ? (
-        <Link style={linkStyle2} to={`/addBook`}>
-          Add a book
-        </Link>
-      ) : null}
     </Container>
   );
 };

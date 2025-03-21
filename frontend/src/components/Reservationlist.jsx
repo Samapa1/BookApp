@@ -1,10 +1,21 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import {
+  Table,
+  TableHead,
+  TableCell,
+  TableContainer,
+  TableRow,
+  TableBody,
+  Paper,
+  Typography,
+  Container,
+  Button,
+} from "@mui/material";
 import { initializeReservations } from "../reducers/reservationReducer";
 import { removeReservation } from "../reducers/reservationReducer";
 import { getUserData } from "../reducers/userReducer";
 import { formatDate } from "../../utils/helper.js";
-import { Button, Table } from "./Styles.jsx";
 import { setNotification } from "../reducers/notificationReducer.js";
 
 const Reservationlist = () => {
@@ -33,38 +44,54 @@ const Reservationlist = () => {
   };
 
   return (
-    <div>
-      <h1>Reservations</h1>
+    <Container sx={{ marginLeft: 1, paddingBottom: 5 }}>
+      <Typography variant="h4" sx={{ marginTop: 5, marginBottom: 3 }}>
+        Reservations
+      </Typography>
       {reservations.length > 0 ? (
-        <Table>
-          <tbody>
-            <tr>
-              <th>User</th>
-              <th>Book</th>
-              <th>Available</th>
-            </tr>
-            {reservations.map((reservation) => (
-              <tr key={reservation.id}>
-                <td> {reservation.user?.name}</td>
-                <td>
-                  {reservation.book?.title} by {reservation.book?.author}{" "}
-                </td>
-                <td>
-                  {reservation.available
-                    ? `due date: ${formatDate(reservation.dueDate)}`
-                    : `not available`}
-                </td>
-                <td>
-                  <Button onClick={() => handleRemoval(reservation)}>
-                    Remove
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <TableContainer
+          component={Paper}
+          sx={{ marginTop: 5, paddingLeft: 1, paddingRight: 1 }}
+        >
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{ color: "#3c6d75", fontWeight: "bold" }}>
+                  User
+                </TableCell>
+                <TableCell sx={{ color: "#3c6d75", fontWeight: "bold" }}>
+                  Book
+                </TableCell>
+                <TableCell sx={{ color: "#3c6d75", fontWeight: "bold" }}>
+                  Available
+                </TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {reservations.map((reservation) => (
+                <TableRow key={reservation.id}>
+                  <TableCell>{reservation.user?.name}</TableCell>
+                  <TableCell>
+                    {reservation.book?.title} by {reservation.book?.author}{" "}
+                  </TableCell>
+                  <TableCell>
+                    {reservation.available
+                      ? `due date: ${formatDate(reservation.dueDate)}`
+                      : `not available`}
+                  </TableCell>
+                  <TableCell>
+                    <Button onClick={() => handleRemoval(reservation)}>
+                      Remove
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       ) : null}
-    </div>
+    </Container>
   );
 };
 
