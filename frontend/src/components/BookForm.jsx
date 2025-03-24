@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { Button, Container, Typography } from "@mui/material";
 import { addBook } from "../reducers/bookReducer";
 import { setNotification } from "../reducers/notificationReducer.js";
-import { Button, Input } from "./Styles";
+import FormField from "./FormField.jsx";
+import BookRadioFilter from "./BookRadioFilter.jsx";
 
 const BookForm = () => {
   const [title, setTitle] = useState("");
@@ -16,27 +18,6 @@ const BookForm = () => {
   const [fictionality, setFictionality] = useState("fiction");
 
   const dispatch = useDispatch();
-
-  const radioFilter = () => {
-    return (
-      <div>
-        <input
-          type="radio"
-          name="fictionality"
-          onChange={() => setFictionality("fiction")}
-          checked={fictionality === "fiction"}
-        />
-        <label htmlFor="fiction">fiction</label>
-        <input
-          type="radio"
-          name="fictionality"
-          onChange={() => setFictionality("nonfiction")}
-          checked={fictionality === "nonfiction"}
-        />
-        <label htmlFor="nonfiction">non-fiction</label>
-      </div>
-    );
-  };
 
   const handleForm = async (e) => {
     e.preventDefault();
@@ -53,6 +34,15 @@ const BookForm = () => {
         numberOfBooks: items,
       };
       await dispatch(addBook(bookObject));
+      setTitle("");
+      setAuthor("");
+      setLanguage("");
+      setYear("");
+      setItems("");
+      setClass("");
+      setGenre("");
+      setSubjects("");
+      setFictionality("fiction");
       await dispatch(
         setNotification(
           {
@@ -67,7 +57,8 @@ const BookForm = () => {
       console.log(exception);
       await dispatch(
         setNotification(
-          { data: `${exception.response.data.error}`, type: "error" },
+          // { data: `${exception.response.data.error}`, type: "error" },
+          { data: `${exception.message}`, type: "error" },
           3000,
         ),
       );
@@ -75,96 +66,51 @@ const BookForm = () => {
   };
 
   return (
-    <div>
-      <h1>Add a book to the database</h1>
-      {radioFilter()}
+    <Container sx={{ marginLeft: 1, paddingBottom: 5 }}>
+      <Typography variant="h5" sx={{ marginBottom: 3, marginTop: 5 }}>
+        Add a book to the database
+      </Typography>
+      <BookRadioFilter
+        fictionality={fictionality}
+        setFictionality={setFictionality}
+      />
       <form onSubmit={handleForm}>
-        <div>
-          title
-          <Input
-            data-testid="title"
-            type="text"
-            value={title}
-            name="title"
-            onChange={({ target }) => setTitle(target.value)}
-          />
-        </div>
-        <div>
-          author
-          <Input
-            data-testid="author"
-            type="text"
-            value={author}
-            name="author"
-            onChange={({ target }) => setAuthor(target.value)}
-          />
-        </div>
-        <div>
-          year
-          <Input
-            data-testid="year"
-            type="number"
-            value={year}
-            name="year"
-            onChange={({ target }) => setYear(target.value)}
-          />
-        </div>
-        <div>
-          language
-          <Input
-            data-testid="language"
-            type="text"
-            value={language}
-            name="language"
-            onChange={({ target }) => setLanguage(target.value)}
-          />
-        </div>
-        <div>
-          class
-          <Input
-            data-testid="class"
-            type="text"
-            value={libraryClass}
-            name="class"
-            onChange={({ target }) => setClass(target.value)}
-          />
-        </div>
+        <FormField field={title} fieldLabel={"Title"} setField={setTitle} />
+        <FormField field={author} fieldLabel={"Author"} setField={setAuthor} />
+        <FormField field={year} fieldLabel={"Year"} setField={setYear} />
+        <FormField
+          field={language}
+          fieldLabel={"Language"}
+          setField={setLanguage}
+        />
+        <FormField
+          field={libraryClass}
+          fieldLabel={"Class"}
+          setField={setClass}
+        />
+        <FormField
+          field={items}
+          fieldLabel={"Number of books"}
+          setField={setItems}
+        />
         {fictionality === "fiction" ? (
-          <div>
-            genre
-            <Input
-              data-testid="genre"
-              type="text"
-              value={genre}
-              name="genre"
-              onChange={({ target }) => setGenre(target.value)}
-            />
-          </div>
+          <FormField field={genre} fieldLabel={"Genre"} setField={setGenre} />
         ) : (
-          <div>
-            subjects
-            <Input
-              data-testid="subjects"
-              type="text"
-              value={subjects}
-              name="subjects"
-              onChange={({ target }) => setSubjects(target.value)}
-            />
-          </div>
-        )}
-        <div>
-          number of books
-          <Input
-            data-testid="items"
-            type="number"
-            value={items}
-            name="items"
-            onChange={({ target }) => setItems(target.value)}
+          <FormField
+            field={subjects}
+            fieldLabel={"Subjects"}
+            setField={setSubjects}
           />
-        </div>
-        <Button type="submit">add</Button>
+        )}
+        <Button
+          type="submit"
+          variant="contained"
+          sx={{ marginTop: 2, marginBottom: 5 }}
+        >
+          Save changes
+        </Button>
       </form>
-    </div>
+    </Container>
   );
 };
 

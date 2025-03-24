@@ -86,10 +86,18 @@ const Loanlist = () => {
             <TableBody>
               {loanList.map((loan) => (
                 <TableRow key={loan.id}>
-                  <TableCell>{loan.user?.name}</TableCell>
-                  <TableCell>{loan.book?.title}</TableCell>
-                  <TableCell>{formatDate(loan.dueDate)}</TableCell>
-                  <TableCell>{isLate(loan.dueDate)}</TableCell>
+                  <TableCell sx={{ color: "#3c6d75" }}>
+                    {loan.user?.name}
+                  </TableCell>
+                  <TableCell sx={{ color: "#3c6d75" }}>
+                    {loan.book?.title}
+                  </TableCell>
+                  <TableCell sx={{ color: "#3c6d75" }}>
+                    {formatDate(loan.dueDate)}
+                  </TableCell>
+                  <TableCell sx={{ color: "#3c6d75" }}>
+                    {isLate(loan.dueDate)}
+                  </TableCell>
                   <TableCell>
                     <Button onClick={() => returnLoan(loan)}>Return</Button>
                   </TableCell>

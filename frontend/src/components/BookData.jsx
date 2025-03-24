@@ -1,9 +1,11 @@
 import { useState, useCallback, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Button, Container, Typography } from "@mui/material";
+
 import { updateBook } from "../reducers/bookReducer";
 import { removeBook } from "../reducers/bookReducer";
-import { Button, Input } from "./Styles";
+import FormField from "./FormField";
 import { setNotification } from "../reducers/notificationReducer";
 
 const BookData = () => {
@@ -95,90 +97,61 @@ const BookData = () => {
 
   if (book) {
     return (
-      <div>
-        <h2>Change book details</h2>
+      <Container sx={{ marginLeft: 1, paddingBottom: 5 }}>
+        <Typography variant="h5" sx={{ marginBottom: 3, marginTop: 5 }}>
+          Change book details
+        </Typography>
         <form onSubmit={handleChanges}>
-          <div>
-            Title
-            <Input
-              type="text"
-              value={title}
-              name="title"
-              onChange={({ target }) => setTitle(target.value)}
-            />
-          </div>
-          <div>
-            Author
-            <Input
-              type="text"
-              value={author}
-              name="author"
-              onChange={({ target }) => setAuthor(target.value)}
-            />
-          </div>
-          <div>
-            Year
-            <Input
-              type="number"
-              value={year}
-              name="year"
-              onChange={({ target }) => setYear(target.value)}
-            />
-          </div>
-          <div>
-            Language
-            <Input
-              type="text"
-              value={language}
-              name="language"
-              onChange={({ target }) => setLanguage(target.value)}
-            />
-          </div>
-          <div>
-            Class
-            <Input
-              type="text"
-              value={libraryClass}
-              name="libraryClass"
-              onChange={({ target }) => setClass(target.value)}
-            />
-          </div>
-          <div>
-            Number of books
-            <Input
-              type="number"
-              value={items}
-              name="items"
-              onChange={({ target }) => setItems(target.value)}
-            />
-          </div>
+          <FormField field={title} fieldLabel={"Title"} setField={setTitle} />
+          <FormField
+            field={author}
+            fieldLabel={"Author"}
+            setField={setAuthor}
+          />
+          <FormField field={year} fieldLabel={"Year"} setField={setYear} />
+          <FormField
+            field={language}
+            fieldLabel={"Language"}
+            setField={setLanguage}
+          />
+          <FormField
+            field={libraryClass}
+            fieldLabel={"Class"}
+            setField={setClass}
+          />
+          <FormField
+            field={items}
+            fieldLabel={"Number of books"}
+            setField={setItems}
+          />
           {book.genre ? (
-            <div>
-              Genre
-              <Input
-                type="text"
-                value={genre}
-                name="genre"
-                onChange={({ target }) => setGenre(target.value)}
-              />
-            </div>
+            <FormField field={genre} fieldLabel={"Genre"} setField={setGenre} />
           ) : (
-            <div>
-              Subjects
-              <Input
-                type="text"
-                value={subjects}
-                name="subjects"
-                onChange={({ target }) => setSubjects(target.value)}
-              />
-            </div>
+            <FormField
+              field={subjects}
+              fieldLabel={"Subjects"}
+              setField={setSubjects}
+            />
           )}
-          <Button type="submit">Save changes</Button>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ marginTop: 2, marginBottom: 5 }}
+          >
+            Save changes
+          </Button>
         </form>
-        <br></br>
-        <p>Remove book from the database?</p>
-        <Button onClick={handleDelete}>Delete book</Button>
-      </div>
+        <Typography variant="body1">
+          Remove the book from the database?
+        </Typography>
+        <Button
+          variant="contained"
+          sx={{ marginTop: 2 }}
+          onClick={handleDelete}
+        >
+          Delete book
+        </Button>
+      </Container>
     );
   }
 };

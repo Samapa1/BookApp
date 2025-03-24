@@ -20,4 +20,9 @@ export const theme = createTheme({
       color: "#366169",
     },
   },
+  button: {
+    contained: {
+      color: "#366169",
+    },
+  },
 });

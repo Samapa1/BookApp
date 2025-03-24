@@ -17,7 +17,6 @@ const userSlice = createSlice({
     setUserBookRating(state, action) {
       const newRating = action.payload;
       const newStars = newRating.stars;
-      console.log(JSON.parse(JSON.stringify(state)));
       const userRatings = state.ratings ?? [];
       const alreadyRated = state.ratings.find(
         (rating) => rating.bookId === newRating.bookId,

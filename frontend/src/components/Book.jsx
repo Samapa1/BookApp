@@ -98,7 +98,7 @@ const Book = () => {
 
   if (book && user) {
     return (
-      <Container sx={{ marginLeft: 1 }}>
+      <Container sx={{ marginLeft: 1, paddingBottom: 5 }}>
         <BasicBookData book={book} />
         {!borrowed && available && !reserved ? (
           <Button
@@ -140,12 +140,15 @@ const Book = () => {
         </Typography>
         <br />
         {user && user.admin ? (
-          <Link
-            style={{ color: "#54A4A6", fontFamily: ["Futura", "sans-serif"] }}
-            to={`/bookdata/${book.id}`}
-          >
-            Change book details or delete it from the database.
-          </Link>
+          <>
+            <br></br>
+            <Link
+              style={{ color: "#54A4A6", fontFamily: ["Futura", "sans-serif"] }}
+              to={`/bookdata/${book.id}`}
+            >
+              Change book details or delete it from the database.
+            </Link>
+          </>
         ) : (
           <></>
         )}

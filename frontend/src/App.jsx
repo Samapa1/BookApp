@@ -185,19 +185,19 @@ const App = () => {
           sx={{
             bgcolor: "#ffe8e8",
             height: 20,
-            paddingBottom: 10,
+            paddingBottom: "70px",
           }}
           maxWidth={false}
         >
           <Box
-            variant="elevation"
             sx={{
               bgcolor: "#3c6d75",
-              boxShadow: [10, 10, 10, 10],
+              // boxShadow: "0px -8px 6px -3px rgba(0, 0, 0, 0.2)",
+              boxShadow: "0px -8px 4px -4px rgba(0, 0, 0, 0.2)",
+              // boxShadow: "0px -8px 8px -4px rgba(0, 0, 0, 0.2)",
               height: 15,
               paddingBottom: 7,
             }}
-            elevation={0}
           >
             <Typography
               variant="body1"

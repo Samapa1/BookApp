@@ -1,12 +1,15 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-
 import { useNavigate } from "react-router-dom";
+import { Button, Container, Typography } from "@mui/material";
+import EmailIcon from "@mui/icons-material/Email";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+
 import { updateUser } from "../reducers/usersReducer";
 import { removeUser } from "../reducers/usersReducer";
 import { setNotification } from "../reducers/notificationReducer";
-import { Button, Input } from "./Styles";
+import FormField from "./FormField";
 
 import { getUserData } from "../reducers/userReducer";
 import userService from "../services/users";
@@ -35,8 +38,6 @@ const UserDataAdmin = () => {
     };
     fetchData();
   }, []);
-
-  console.log(user);
 
   const navigate = useNavigate();
 
@@ -106,42 +107,48 @@ const UserDataAdmin = () => {
   };
   if (user) {
     return (
-      <div>
-        <h1>User</h1>
+      <Container sx={{ marginLeft: 1, paddingBottom: 5 }}>
+        <Typography variant="h5" sx={{ marginBottom: 3, marginTop: 5 }}>
+          User details
+        </Typography>
         <form onSubmit={handleChanges}>
-          <div>
-            username
-            <Input
-              type="text"
-              value={username}
-              name="username"
-              onChange={({ target }) => setUserName(target.value)}
-            />
-          </div>
-          <div>
-            name
-            <Input
-              type="text"
-              value={nameOfTheUser}
-              name="nameOfTheUser"
-              onChange={({ target }) => setName(target.value)}
-            />
-          </div>
-          <div>
-            email
-            <Input
-              type="text"
-              value={email}
-              name="email"
-              onChange={({ target }) => setEmail(target.value)}
-            />
-          </div>
-          <Button type="submit">Save changes</Button>
+          <FormField
+            field={username}
+            fieldLabel={"Username"}
+            setField={setUserName}
+            icon={<AccountCircle />}
+          />
+          <FormField
+            field={nameOfTheUser}
+            fieldLabel={"Name"}
+            setField={setName}
+            icon={<AccountCircle />}
+          />
+          <FormField
+            field={email}
+            fieldLabel={"Email"}
+            setField={setEmail}
+            icon={<EmailIcon />}
+          />
+          <Button type="submit" variant="contained" sx={{ marginTop: 2 }}>
+            Save changes
+          </Button>
         </form>
-        <p>books borrowed: {user.loans.length}</p>
-        <p>is admin: {adminStatus ? "yes" : "no"}</p>
+        <Typography variant="body1" sx={{ marginTop: 5 }}>
+          {" "}
+          Books borrowed: {user.loans.length}
+        </Typography>
+        <Typography variant="body1" sx={{ marginBottom: 5 }}>
+          Is admin: {adminStatus ? "yes" : "no"}
+        </Typography>
         {user.loans.length === 0 ? (
-          <Button onClick={() => handleRemoveUser(user)}>Delete account</Button>
+          <Button
+            variant="contained"
+            sx={{ marginRight: 2 }}
+            onClick={() => handleRemoveUser(user)}
+          >
+            Delete account
+          </Button>
         ) : (
           <p>
             User has loans. If you wish to delete account, please return books
@@ -149,15 +156,15 @@ const UserDataAdmin = () => {
           </p>
         )}
         {adminStatus ? (
-          <Button onClick={() => removeAdminStatus()}>
+          <Button variant="contained" onClick={() => removeAdminStatus()}>
             Remove admin status
           </Button>
         ) : (
-          <Button onClick={() => addAdminStatus()}>
+          <Button variant="contained" onClick={() => addAdminStatus()}>
             Make this user an admin
           </Button>
         )}
-      </div>
+      </Container>
     );
   }
 };

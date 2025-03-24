@@ -1,9 +1,20 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import {
+  Table,
+  TableHead,
+  TableCell,
+  TableContainer,
+  TableRow,
+  TableBody,
+  Paper,
+  Typography,
+  Container,
+  Button,
+} from "@mui/material";
 import { getRatings } from "../reducers/ratingReducer";
 import { removeRating } from "../reducers/ratingReducer";
 import { getUserData } from "../reducers/userReducer";
-import { Button, Table } from "./Styles.jsx";
 import { setNotification } from "../reducers/notificationReducer.js";
 
 const Ratinglist = () => {
@@ -32,33 +43,60 @@ const Ratinglist = () => {
   };
 
   return (
-    <div>
-      <h1>Ratings</h1>
+    <Container sx={{ marginLeft: 1, paddingBottom: 5 }}>
+      <Typography variant="h4" sx={{ marginTop: 5, marginBottom: 3 }}>
+        Ratings
+      </Typography>
       {ratings ? (
-        <Table>
-          <tbody>
-            <tr>
-              <th>Title</th>
-              <th>Author</th>
-              <th>Stars</th>
-              <th>Rated by</th>
-              <th></th>
-            </tr>
-            {ratings.map((rating) => (
-              <tr key={rating.id}>
-                <td>{rating.book?.title}</td>
-                <td>{rating.book?.author}</td>
-                <td>{rating.stars}</td>
-                <td>{rating.user?.name}</td>
-                <td>
-                  <Button onClick={() => handleRemoval(rating)}>Remove</Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <TableContainer
+          component={Paper}
+          sx={{ marginTop: 5, paddingLeft: 1, paddingRight: 1 }}
+        >
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{ color: "#3c6d75", fontWeight: "bold" }}>
+                  Title
+                </TableCell>
+                <TableCell sx={{ color: "#3c6d75", fontWeight: "bold" }}>
+                  Author
+                </TableCell>
+                <TableCell sx={{ color: "#3c6d75", fontWeight: "bold" }}>
+                  Stars
+                </TableCell>
+                <TableCell sx={{ color: "#3c6d75", fontWeight: "bold" }}>
+                  Rated by
+                </TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {ratings.map((rating) => (
+                <TableRow key={rating.id}>
+                  <TableCell sx={{ color: "#3c6d75" }}>
+                    {rating.book?.title}
+                  </TableCell>
+                  <TableCell sx={{ color: "#3c6d75" }}>
+                    {rating.book?.author}
+                  </TableCell>
+                  <TableCell sx={{ color: "#3c6d75" }}>
+                    {rating.stars}
+                  </TableCell>
+                  <TableCell sx={{ color: "#3c6d75" }}>
+                    {rating.user?.name}
+                  </TableCell>
+                  <TableCell>
+                    <Button onClick={() => handleRemoval(rating)}>
+                      Remove
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       ) : null}
-    </div>
+    </Container>
   );
 };
 

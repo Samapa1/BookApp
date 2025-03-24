@@ -11,15 +11,14 @@ import {
   Paper,
   Typography,
   Container,
-  RadioGroup,
-  FormControlLabel,
   FormControl,
-  Radio,
   TextField,
   Box,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
+
+import BookRadioFilter from "./BookRadioFilter";
 
 const Booklist = () => {
   const user = useSelector((state) => state.user);
@@ -49,34 +48,6 @@ const Booklist = () => {
     );
   };
 
-  const radioFilter = () => {
-    const handleFictionality = (event) => {
-      setFictionality(event.target.value);
-    };
-    return (
-      <FormControl>
-        <RadioGroup
-          row
-          aria-labelledby="demo-controlled-radio-buttons-group"
-          name="controlled-radio-buttons-group"
-          value={fictionality}
-          onChange={handleFictionality}
-        >
-          <FormControlLabel
-            value="fiction"
-            control={<Radio />}
-            label="fiction"
-          />
-          <FormControlLabel
-            value="non-fiction"
-            control={<Radio />}
-            label="non-fiction"
-          />
-        </RadioGroup>
-      </FormControl>
-    );
-  };
-
   const booksToShow = allBooks.filter(
     (book) =>
       book.title.toLowerCase().includes(filtered.toLowerCase()) ||
@@ -90,7 +61,11 @@ const Booklist = () => {
       </Typography>
       {filterBooks()}
       <br />
-      {radioFilter()}
+      {/* {radioFilter()} */}
+      <BookRadioFilter
+        fictionality={fictionality}
+        setFictionality={setFictionality}
+      />
       {user && user.admin ? (
         <Box sx={{ marginTop: 3, marginBottom: 3, paddingLeft: 0 }}>
           <Link
