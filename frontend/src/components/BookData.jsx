@@ -7,6 +7,7 @@ import { updateBook } from "../reducers/bookReducer";
 import { removeBook } from "../reducers/bookReducer";
 import FormField from "./FormField";
 import { setNotification } from "../reducers/notificationReducer";
+import BookRadioFilter from "./BookRadioFilter.jsx";
 
 const BookData = () => {
   const id = useParams().id;
@@ -20,7 +21,7 @@ const BookData = () => {
   const [libraryClass, setClass] = useState("");
   const [genre, setGenre] = useState("");
   const [subjects, setSubjects] = useState("");
-
+  const [fictionality, setFictionality] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -32,8 +33,10 @@ const BookData = () => {
       setYear(book.year);
       setLanguage(book.language);
       setClass(book.class);
-      setGenre(book.genre);
-      setSubjects(book.subjects);
+      book.genre ? (setFictionality("fiction"), setGenre(book.genre)) : null;
+      book.subjects
+        ? (setSubjects(book.subjects), setFictionality("non-fiction"))
+        : null;
     }
   }, [book]);
 
@@ -95,12 +98,19 @@ const BookData = () => {
     }
   };
 
+  console.log(fictionality);
+  console.log(genre);
+
   if (book) {
     return (
       <Container sx={{ marginLeft: 1, paddingBottom: 5 }}>
         <Typography variant="h5" sx={{ marginBottom: 3, marginTop: 5 }}>
           Change book details
         </Typography>
+        <BookRadioFilter
+          fictionality={fictionality}
+          setFictionality={setFictionality}
+        />
         <form onSubmit={handleChanges}>
           <FormField field={title} fieldLabel={"Title"} setField={setTitle} />
           <FormField
@@ -124,15 +134,16 @@ const BookData = () => {
             fieldLabel={"Number of books"}
             setField={setItems}
           />
-          {book.genre ? (
+          {fictionality === "fiction" ? (
             <FormField field={genre} fieldLabel={"Genre"} setField={setGenre} />
-          ) : (
+          ) : null}
+          {fictionality === "non-fiction" ? (
             <FormField
               field={subjects}
               fieldLabel={"Subjects"}
               setField={setSubjects}
             />
-          )}
+          ) : null}
           <Button
             type="submit"
             variant="contained"

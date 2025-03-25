@@ -18,13 +18,27 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", tokenExtractor, async (req, res) => {
-  if (req.user.admin !== true) {
-    return res
-      .status(403)
-      .json({ error: "Only admins are allowed to add books." });
+  try {
+    if (req.user.admin !== true) {
+      return res
+        .status(403)
+        .json({ error: "Only admins are allowed to add books." });
+    }
+
+    if (!req.body.genre && !req.body.subjects) {
+      return res
+        .status(400)
+        .json({ error: "Please fill genre/subjects -field." });
+    }
+    const book = await Book.create({ ...req.body });
+    return res.status(201).json(book);
+  } catch (err) {
+    if (err.errors[0].type === "Validation error") {
+      return res.status(400).json({ error: err.errors[0].message });
+    } else {
+      return res.status(400).json({ error: "Request failed" });
+    }
   }
-  const book = await Book.create({ ...req.body });
-  return res.status(201).json(book);
 });
 
 router.put("/:id", tokenExtractor, async (req, res) => {
@@ -34,97 +48,112 @@ router.put("/:id", tokenExtractor, async (req, res) => {
       .json({ error: "Only admins are allowed to modify books." });
   }
 
-  const updatedBook = await sequelize.transaction(async (t) => {
-    const book = await Book.findByPk(req.params.id, {
-      include: [
-        {
-          model: Loan,
-        },
-      ],
-      transaction: t,
-    });
-    const itemsBefore = book.numberOfBooks;
+  try {
+    const updatedBook = await sequelize.transaction(async (t) => {
+      const book = await Book.findByPk(req.params.id, {
+        include: [
+          {
+            model: Loan,
+          },
+        ],
+        transaction: t,
+      });
+      const itemsBefore = book.numberOfBooks;
 
-    if (book.loans.length > req.body.numberOfBooks) {
-      return res
-        .status(403)
-        .json({ error: "Please return books before removing them." });
-    }
+      if (book.loans.length > req.body.numberOfBooks) {
+        return res
+          .status(403)
+          .json({ error: "Please return books before removing them." });
+      }
 
-    if (!req.body.genre && !req.body.subjects) {
-      return res
-        .status(400)
-        .json({ error: "Please fill genre/subjects -field." });
-    }
+      if (!req.body.genre && !req.body.subjects) {
+        return res
+          .status(400)
+          .json({ error: "Please fill genre/subjects -field." });
+      }
 
-    (book.title = req.body.title),
-      (book.author = req.body.author),
-      (book.year = req.body.year),
-      (book.language = req.body.language),
-      (book.class = req.body.class),
-      (book.genre = req.body.genre),
-      (book.subjects = req.body.subjects),
-      (book.numberOfBooks = req.body.numberOfBooks);
-    await book.save({ transaction: t });
+      (book.title = req.body.title),
+        (book.author = req.body.author),
+        (book.year = req.body.year),
+        (book.language = req.body.language),
+        (book.class = req.body.class),
+        (book.genre = req.body.genre),
+        (book.subjects = req.body.subjects),
+        (book.numberOfBooks = Number(req.body.numberOfBooks));
+      await book.save({ transaction: t });
 
-    const notAvailableReservations = await Reservation.findAll({
-      where: { bookId: book.id, available: false },
-      order: [["createdAt", "ASC"]],
-      transaction: t,
-    });
+      const notAvailableReservations = await Reservation.findAll({
+        where: { bookId: book.id, available: false },
+        order: [["createdAt", "ASC"]],
+        transaction: t,
+      });
 
-    const availableReservations = await Reservation.findAll({
-      where: { bookId: book.id, available: true },
-      order: [["createdAt", "DESC"]],
-      transaction: t,
-    });
+      const availableReservations = await Reservation.findAll({
+        where: { bookId: book.id, available: true },
+        order: [["createdAt", "DESC"]],
+        transaction: t,
+      });
 
-    if (
-      itemsBefore < book.numberOfBooks &&
-      notAvailableReservations.length > 0
-    ) {
-      console.log("books were added");
+      if (
+        itemsBefore < book.numberOfBooks &&
+        notAvailableReservations.length > 0
+      ) {
+        console.log("books were added");
 
-      if (notAvailableReservations.length > book.numberOfBooks - itemsBefore) {
+        if (
+          notAvailableReservations.length >
+          book.numberOfBooks - itemsBefore
+        ) {
+          let i = 0;
+          while (i < book.numberOfBooks - itemsBefore) {
+            notAvailableReservations[i].available = true;
+            notAvailableReservations[i].dueDate = setDueDate();
+            await notAvailableReservations[i].save({ transaction: t });
+            i++;
+          }
+        } else if (
+          notAvailableReservations.length <=
+          book.numberOfBooks - itemsBefore
+        ) {
+          await Promise.all(
+            notAvailableReservations.map((reservation) => {
+              reservation.available = true;
+              reservation.dueDate = setDueDate();
+              return reservation.save({ transaction: t });
+            }),
+          );
+        }
+      }
+
+      if (
+        availableReservations.length >
+        book.numberOfBooks - book.loans.length
+      ) {
+        console.log("books were removed");
+        const reservationsToChange =
+          availableReservations.length -
+          (book.numberOfBooks - book.loans.length);
         let i = 0;
-        while (i < book.numberOfBooks - itemsBefore) {
-          notAvailableReservations[i].available = true;
-          notAvailableReservations[i].dueDate = setDueDate();
-          await notAvailableReservations[i].save({ transaction: t });
+        while (i < reservationsToChange) {
+          console.log("changing reservations");
+          availableReservations[i].available = false;
+          availableReservations[i].dueDate = null;
+          await availableReservations[i].save({ transaction: t });
           i++;
         }
-      } else if (
-        notAvailableReservations.length <=
-        book.numberOfBooks - itemsBefore
-      ) {
-        await Promise.all(
-          notAvailableReservations.map((reservation) => {
-            reservation.available = true;
-            reservation.dueDate = setDueDate();
-            return reservation.save({ transaction: t });
-          }),
-        );
       }
+
+      return book;
+    });
+
+    return res.json(updatedBook);
+  } catch (err) {
+    if (err.errors[0].type === "Validation error") {
+      return res.status(400).json({ error: err.errors[0].message });
+    } else {
+      return res.status(400).json({ error: "Request failed" });
     }
-
-    if (availableReservations.length > book.numberOfBooks - book.loans.length) {
-      console.log("books were removed");
-      const reservationsToChange =
-        availableReservations.length - (book.numberOfBooks - book.loans.length);
-      let i = 0;
-      while (i < reservationsToChange) {
-        console.log("changing reservations");
-        availableReservations[i].available = false;
-        availableReservations[i].dueDate = null;
-        await availableReservations[i].save({ transaction: t });
-        i++;
-      }
-    }
-
-    return book;
-  });
-
-  return res.json(updatedBook);
+  }
 });
 
 router.delete("/:id", tokenExtractor, async (req, res) => {

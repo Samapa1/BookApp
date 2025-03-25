@@ -13,7 +13,8 @@ const BasicBookData = ({ book }) => {
       <Typography variant="body1">Language: {book.language}</Typography>
       <Typography variant="body1">Class: {book.class}</Typography>
       <Typography variant="body1" sx={{ marginBottom: 3 }}>
-        {book.genre ? `Genre: ${book.genre}` : `Subjects: ${book.subjects}`}
+        {book.genre ? `Genre: ${book.genre}` : null}
+        {book.subjects ? `Subjects: ${book.subjects}` : null}
       </Typography>
     </>
   );

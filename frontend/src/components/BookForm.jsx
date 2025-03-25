@@ -31,7 +31,7 @@ const BookForm = () => {
         class: libraryClass,
         genre: genre,
         subjects: subjects,
-        numberOfBooks: items,
+        numberOfBooks: Number(items),
       };
       await dispatch(addBook(bookObject));
       setTitle("");
@@ -57,8 +57,8 @@ const BookForm = () => {
       console.log(exception);
       await dispatch(
         setNotification(
-          // { data: `${exception.response.data.error}`, type: "error" },
-          { data: `${exception.message}`, type: "error" },
+          { data: `${exception.response.data.error}`, type: "error" },
+          // { data: `${exception.message}`, type: "error" },
           3000,
         ),
       );
