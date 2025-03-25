@@ -99,17 +99,68 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/:id", tokenExtractor, async (req, res) => {
-  const user = await User.findByPk(req.params.id);
-  const saltRounds = 10;
-  if (user.id !== req.user.id && !req.user.admin) {
-    return res.status(403).end();
-  }
+  try {
+    const user = await User.findByPk(req.params.id);
+    const saltRounds = 10;
+    if (user.id !== req.user.id && !req.user.admin) {
+      return res.status(403).end();
+    }
 
-  if (req.user.admin && req.user.id !== user.id) {
-    user.username = req.body.username;
+    if (req.user.admin && req.user.id !== user.id) {
+      user.username = req.body.username;
+      user.name = req.body.name;
+      user.email = req.body.email;
+      user.admin = req.body.admin;
+      await user.save();
+      return res.json({
+        id: user.id,
+        username: user.username,
+        name: user.name,
+        email: user.email,
+        admin: user.admin,
+        loans: user.loans,
+        reservations: user.reservations,
+        ratings: user.ratings,
+      });
+    }
+
+    const passwordCorrect = await bcrypt.compare(
+      req.body.oldPassword,
+      user.passwordHash,
+    );
+    if (!passwordCorrect) {
+      return res.status(401).json({ error: "wrong password" });
+    }
+
+    if (!req.body.newPassword) {
+      user.name = req.body.name;
+      user.email = req.body.email;
+      await user.save();
+      return res.json({
+        id: user.id,
+        username: user.username,
+        name: user.name,
+        email: user.email,
+        admin: user.admin,
+        loans: user.loans,
+        reservations: user.reservations,
+        ratings: user.ratings,
+      });
+    }
+
+    if (req.body.newPassword !== req.body.newPassword2)
+      return res.status(400).json({ error: "New passwords do not match" });
+
+    if (!validPassword(req.body.newPassword)) {
+      return res.status(400).json({
+        error:
+          "Password must have at least 8 characters (including at least one number)",
+      });
+    }
+
     user.name = req.body.name;
     user.email = req.body.email;
-    user.admin = req.body.admin;
+    user.passwordHash = await bcrypt.hash(req.body.newPassword, saltRounds);
     await user.save();
     return res.json({
       id: user.id,
@@ -121,56 +172,13 @@ router.post("/:id", tokenExtractor, async (req, res) => {
       reservations: user.reservations,
       ratings: user.ratings,
     });
+  } catch (err) {
+    if (err.errors[0].type === "Validation error") {
+      return res.status(400).json({ error: err.errors[0].message });
+    } else {
+      return res.status(400).json({ error: "Request failed" });
+    }
   }
-
-  const passwordCorrect = await bcrypt.compare(
-    req.body.oldPassword,
-    user.passwordHash,
-  );
-  if (!passwordCorrect) {
-    return res.status(401).json({ error: "wrong password" });
-  }
-
-  if (!req.body.newPassword) {
-    user.name = req.body.name;
-    user.email = req.body.email;
-    await user.save();
-    return res.json({
-      id: user.id,
-      username: user.username,
-      name: user.name,
-      email: user.email,
-      admin: user.admin,
-      loans: user.loans,
-      reservations: user.reservations,
-      ratings: user.ratings,
-    });
-  }
-
-  if (req.body.newPassword !== req.body.newPassword2)
-    return res.status(400).json({ error: "New passwords do not match" });
-
-  if (!validPassword(req.body.newPassword)) {
-    return res.status(400).json({
-      error:
-        "Password must have at least 8 characters (including at least one number)",
-    });
-  }
-
-  user.name = req.body.name;
-  user.email = req.body.email;
-  user.passwordHash = await bcrypt.hash(req.body.newPassword, saltRounds);
-  await user.save();
-  return res.json({
-    id: user.id,
-    username: user.username,
-    name: user.name,
-    email: user.email,
-    admin: user.admin,
-    loans: user.loans,
-    reservations: user.reservations,
-    ratings: user.ratings,
-  });
 });
 
 router.get("/:id", tokenExtractor, async (req, res) => {

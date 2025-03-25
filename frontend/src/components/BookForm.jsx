@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button, Container, Typography } from "@mui/material";
-import { addBook } from "../reducers/bookReducer";
+import { addBook, initializeBooks } from "../reducers/bookReducer";
 import { setNotification } from "../reducers/notificationReducer.js";
 import FormField from "./FormField.jsx";
 import BookRadioFilter from "./BookRadioFilter.jsx";
@@ -43,6 +43,7 @@ const BookForm = () => {
       setGenre("");
       setSubjects("");
       setFictionality("fiction");
+      await dispatch(initializeBooks());
       await dispatch(
         setNotification(
           {
@@ -53,12 +54,9 @@ const BookForm = () => {
         ),
       );
     } catch (exception) {
-      console.log("something went wrong");
-      console.log(exception);
       await dispatch(
         setNotification(
           { data: `${exception.response.data.error}`, type: "error" },
-          // { data: `${exception.message}`, type: "error" },
           3000,
         ),
       );

@@ -48,7 +48,7 @@ const Login = () => {
   };
 
   return (
-    <Container sx={{ marginLeft: 1 }}>
+    <Container sx={{ marginLeft: 1, paddingBottom: 5 }}>
       <Typography variant="h5" sx={{ marginBottom: 2, marginTop: 5 }}>
         Log in to application
       </Typography>

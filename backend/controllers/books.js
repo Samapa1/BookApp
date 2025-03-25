@@ -8,7 +8,9 @@ const { Rating } = require("../models");
 const { sequelize } = require("../utils/db");
 
 router.get("/", async (req, res) => {
-  const books = await Book.findAll();
+  const books = await Book.findAll({
+    order: [["title", "ASC"]],
+  });
   return res.json(books);
 });
 
@@ -42,13 +44,13 @@ router.post("/", tokenExtractor, async (req, res) => {
 });
 
 router.put("/:id", tokenExtractor, async (req, res) => {
-  if (req.user.admin !== true) {
-    return res
-      .status(403)
-      .json({ error: "Only admins are allowed to modify books." });
-  }
-
   try {
+    if (req.user.admin !== true) {
+      return res
+        .status(403)
+        .json({ error: "Only admins are allowed to modify books." });
+    }
+
     const updatedBook = await sequelize.transaction(async (t) => {
       const book = await Book.findByPk(req.params.id, {
         include: [

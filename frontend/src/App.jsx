@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Container,
   AppBar,
@@ -10,8 +10,10 @@ import {
   Button,
   Typography,
 } from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
 import { ThemeProvider } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
+import Menu from "@mui/material/Menu";
 
 import { initializeBooks } from "./reducers/bookReducer";
 import { getUserData } from "./reducers/userReducer";
@@ -44,7 +46,6 @@ const Home = ({ user }) => {
   }
 
   return (
-    // <>
     <Container sx={{ marginLeft: 1 }}>
       <ThemeProvider theme={theme}>
         <Typography
@@ -81,9 +82,24 @@ const App = () => {
     dispatch(getUserData());
   }, [dispatch]);
 
-  const padding = {
+  const menu = {
     padding: 5,
     color: "white",
+  };
+
+  const hiddenMenu = {
+    color: "#366169",
+    fontFamily: ["Futura", "sans-serif"],
+  };
+
+  const [anchorElNav, setAnchorElNav] = useState(null);
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
   };
 
   const user = useSelector((state) => state.user);
@@ -99,65 +115,185 @@ const App = () => {
             <Box sx={{ flexGrow: 1 }}>
               <AppBar sx={{ bgcolor: "#3c6d75" }} position="static">
                 <Toolbar>
-                  <IconButton
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="menu"
-                    sx={{ mr: 2 }}
+                  <Box
+                    sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
                   >
-                    <MenuIcon />
-                  </IconButton>
-                  <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    <Link style={padding} to="/">
-                      home
-                    </Link>
+                    <IconButton
+                      size="large"
+                      aria-label="menu-appbar"
+                      aria-controls="menu-appbar"
+                      aria-haspopup="true"
+                      onClick={handleOpenNavMenu}
+                      color="inherit"
+                    >
+                      <MenuIcon />
+                    </IconButton>
+                    <Menu
+                      id="menu-appbar"
+                      anchorEl={anchorElNav}
+                      anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "left",
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                      }}
+                      open={Boolean(anchorElNav)}
+                      onClose={handleCloseNavMenu}
+                      sx={{ display: { xs: "block", md: "none" } }}
+                    >
+                      {user ? (
+                        <>
+                          <MenuItem onClick={handleCloseNavMenu}>
+                            <Link style={hiddenMenu} to="/user">
+                              my page
+                            </Link>
+                          </MenuItem>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                      <MenuItem key="books" onClick={handleCloseNavMenu}>
+                        <Link style={hiddenMenu} to="/books">
+                          books
+                        </Link>
+                      </MenuItem>
+                      {user && user.admin ? (
+                        <>
+                          <MenuItem onClick={handleCloseNavMenu}>
+                            <Link style={hiddenMenu} to="/loans">
+                              loans
+                            </Link>
+                          </MenuItem>
+                          <MenuItem onClick={handleCloseNavMenu}>
+                            <Link style={hiddenMenu} to="/reservations">
+                              reservations
+                            </Link>
+                          </MenuItem>
+                          <MenuItem onClick={handleCloseNavMenu}>
+                            <Link style={hiddenMenu} to="/ratings">
+                              ratings
+                            </Link>
+                          </MenuItem>
+                          <MenuItem onClick={handleCloseNavMenu}>
+                            <Link style={hiddenMenu} to="/users">
+                              users
+                            </Link>
+                          </MenuItem>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                      {user ? (
+                        <>
+                          <MenuItem onClick={handleCloseNavMenu}>
+                            <Link style={hiddenMenu} to="/logout">
+                              log out
+                            </Link>
+                          </MenuItem>
+                        </>
+                      ) : (
+                        <>
+                          <MenuItem onClick={handleCloseNavMenu}>
+                            <Link style={hiddenMenu} to="/login">
+                              log in
+                            </Link>
+                          </MenuItem>
+                        </>
+                      )}
+                    </Menu>
+                  </Box>
+                  <Box
+                    sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
+                  >
                     {user ? (
                       <>
-                        {" "}
-                        <Link style={padding} to="/user">
-                          my page
-                        </Link>
+                        <Button
+                          onClick={handleCloseNavMenu}
+                          sx={{ my: 2, color: "white", display: "block" }}
+                        >
+                          <Link style={menu} to="/user">
+                            my page
+                          </Link>
+                        </Button>
                       </>
                     ) : (
                       <></>
                     )}
-                    <Link style={padding} to="/books">
-                      books
-                    </Link>
+                    <Button
+                      onClick={handleCloseNavMenu}
+                      sx={{ my: 2, color: "white", display: "block" }}
+                    >
+                      <Link style={menu} to="/books">
+                        books
+                      </Link>
+                    </Button>
                     {user && user.admin ? (
                       <>
-                        {" "}
-                        <Link style={padding} to="/loans">
-                          loans
-                        </Link>
-                        <Link style={padding} to="/reservations">
-                          reservations
-                        </Link>
-                        <Link style={padding} to="/ratings">
-                          ratings
-                        </Link>
-                        <Link style={padding} to="/users">
-                          users
-                        </Link>
+                        <Button
+                          onClick={handleCloseNavMenu}
+                          sx={{ my: 2, color: "white", display: "block" }}
+                        >
+                          <Link style={menu} to="/loans">
+                            loans
+                          </Link>
+                        </Button>
+                        <Button
+                          onClick={handleCloseNavMenu}
+                          sx={{ my: 2, color: "white", display: "block" }}
+                        >
+                          <Link style={menu} to="/reservations">
+                            reservations
+                          </Link>
+                        </Button>
+                        <Button
+                          onClick={handleCloseNavMenu}
+                          sx={{ my: 2, color: "white", display: "block" }}
+                        >
+                          <Link style={menu} to="/ratings">
+                            ratings
+                          </Link>
+                        </Button>
+                        <Button
+                          onClick={handleCloseNavMenu}
+                          sx={{ my: 2, color: "white", display: "block" }}
+                        >
+                          <Link style={menu} to="/users">
+                            users
+                          </Link>
+                        </Button>
                       </>
                     ) : (
                       <></>
                     )}
-                  </Typography>
-                  <Button color="inherit">
                     {user ? (
                       <>
-                        <Link style={padding} to="/logout">
-                          log out
-                        </Link>
+                        <Button
+                          onClick={handleCloseNavMenu}
+                          sx={{
+                            my: 2,
+                            color: "white",
+                            display: "block",
+                          }}
+                        >
+                          <Link style={menu} to="/logout">
+                            log out
+                          </Link>
+                        </Button>
                       </>
                     ) : (
-                      <Link style={padding} to="/login">
-                        log in
-                      </Link>
+                      <Button
+                        onClick={handleCloseNavMenu}
+                        sx={{ my: 2, color: "white", display: "block" }}
+                      >
+                        <Link style={menu} to="/login">
+                          log in
+                        </Link>
+                      </Button>
                     )}
-                  </Button>
+                  </Box>
                 </Toolbar>
               </AppBar>
             </Box>
@@ -192,9 +328,7 @@ const App = () => {
           <Box
             sx={{
               bgcolor: "#3c6d75",
-              // boxShadow: "0px -8px 6px -3px rgba(0, 0, 0, 0.2)",
               boxShadow: "0px -8px 4px -4px rgba(0, 0, 0, 0.2)",
-              // boxShadow: "0px -8px 8px -4px rgba(0, 0, 0, 0.2)",
               height: 15,
               paddingBottom: 7,
             }}

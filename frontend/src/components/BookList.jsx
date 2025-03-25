@@ -61,7 +61,6 @@ const Booklist = () => {
       </Typography>
       {filterBooks()}
       <br />
-      {/* {radioFilter()} */}
       <BookRadioFilter
         fictionality={fictionality}
         setFictionality={setFictionality}
