@@ -28,8 +28,8 @@ const Login = () => {
     event.preventDefault();
 
     try {
-      navigate("/");
       await dispatch(loginUser({ username, password }));
+      navigate("/");
       await dispatch(
         setNotification({ data: `${username} logged in`, type: "info" }, 3000),
       );
@@ -37,7 +37,7 @@ const Login = () => {
       setPassword("");
     } catch (exception) {
       console.log(exception);
-      navigate("/login");
+      // navigate("/login");
       await dispatch(
         setNotification(
           { data: "Invalid username or password", type: "error" },
