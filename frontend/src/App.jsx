@@ -144,6 +144,11 @@ const App = () => {
                       onClose={handleCloseNavMenu}
                       sx={{ display: { xs: "block", md: "none" } }}
                     >
+                      <MenuItem key="menu" onClick={handleCloseNavMenu}>
+                        <Link style={hiddenMenu} to="/">
+                          home
+                        </Link>
+                      </MenuItem>
                       {user ? (
                         <>
                           <MenuItem onClick={handleCloseNavMenu}>
@@ -208,6 +213,14 @@ const App = () => {
                   <Box
                     sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
                   >
+                    <Button
+                      onClick={handleCloseNavMenu}
+                      sx={{ my: 2, color: "white", display: "block" }}
+                    >
+                      <Link style={menu} to="/">
+                        home
+                      </Link>
+                    </Button>
                     {user ? (
                       <>
                         <Button

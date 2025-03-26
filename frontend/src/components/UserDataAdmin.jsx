@@ -134,11 +134,11 @@ const UserDataAdmin = () => {
             Save changes
           </Button>
         </form>
-        <Typography variant="body1" sx={{ marginTop: 5 }}>
+        <Typography variant="body1" sx={{ marginTop: 3 }}>
           {" "}
           Books borrowed: {user.loans.length}
         </Typography>
-        <Typography variant="body1" sx={{ marginBottom: 5 }}>
+        <Typography variant="body1" sx={{ marginBottom: 3 }}>
           Is admin: {adminStatus ? "yes" : "no"}
         </Typography>
         {user.loans.length === 0 ? (
@@ -150,10 +150,10 @@ const UserDataAdmin = () => {
             Delete account
           </Button>
         ) : (
-          <p>
+          <Typography variant="body1" sx={{ marginBottom: 3 }}>
             User has loans. If you wish to delete account, please return books
             first.{" "}
-          </p>
+          </Typography>
         )}
         {adminStatus ? (
           <Button variant="contained" onClick={() => removeAdminStatus()}>

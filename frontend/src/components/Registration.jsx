@@ -172,7 +172,7 @@ const Registration = () => {
         <Button
           variant="contained"
           color="primary"
-          sx={{ marginTop: 3 }}
+          sx={{ marginTop: 3, marginBottom: 3 }}
           type="submit"
         >
           register
