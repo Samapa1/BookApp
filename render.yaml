@@ -2,7 +2,7 @@ services:
   - type: web
     env: node
     name: project-prod-backend
-    repo: https://github.com/Samapa1/FullstackProject
+    repo: https://github.com/Samapa1/BookApp
     buildCommand: cd backend; npm ci 
     startCommand: cd backend; npm start
     plan: free
@@ -20,7 +20,7 @@ services:
   - type: web
     env: static
     name: project-prod-frontend
-    repo: https://github.com/Samapa1/FullstackProject
+    repo: https://github.com/Samapa1/BookApp
     buildCommand: cd frontend; npm ci; npm run build
     staticPublishPath: ./frontend/dist
     envVars:
