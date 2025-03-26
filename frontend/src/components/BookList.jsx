@@ -78,10 +78,7 @@ const Booklist = () => {
           </Link>
         </Box>
       ) : null}
-      <TableContainer
-        component={Paper}
-        sx={{ marginTop: 5, paddingLeft: 1, paddingRight: 1 }}
-      >
+      <TableContainer component={Paper} sx={{ marginTop: 5 }}>
         <Table>
           <TableHead>
             <TableRow>
