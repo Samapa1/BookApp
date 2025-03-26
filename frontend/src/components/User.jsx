@@ -61,7 +61,7 @@ const User = () => {
               <TableHead>
                 <TableRow>
                   <TableCell sx={{ color: "#3c6d75", fontWeight: "bold" }}>
-                    Borrowed book
+                    Borrowed books
                   </TableCell>
                   <TableCell sx={{ color: "#3c6d75", fontWeight: "bold" }}>
                     Due date

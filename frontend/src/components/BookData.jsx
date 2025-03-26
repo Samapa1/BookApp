@@ -98,9 +98,6 @@ const BookData = () => {
     }
   };
 
-  console.log(fictionality);
-  console.log(genre);
-
   if (book) {
     return (
       <Container sx={{ marginLeft: 1, paddingBottom: 5 }}>
