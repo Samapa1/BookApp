@@ -19,6 +19,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import InputAdornment from "@mui/material/InputAdornment";
 
 import BookRadioFilter from "./BookRadioFilter";
+import { linkStyle } from "./Styles";
 
 const Booklist = () => {
   const user = useSelector((state) => state.user);
@@ -67,13 +68,7 @@ const Booklist = () => {
       />
       {user && user.admin ? (
         <Box sx={{ marginTop: 3, marginBottom: 3, paddingLeft: 0 }}>
-          <Link
-            style={{
-              color: "#54A4A6",
-              fontFamily: ["Futura", "sans-serif"],
-            }}
-            to={`/addBook`}
-          >
+          <Link style={linkStyle} to={`/addBook`}>
             Add a book
           </Link>
         </Box>
@@ -99,13 +94,7 @@ const Booklist = () => {
                   .map((book) => (
                     <TableRow key={book.id}>
                       <TableCell>
-                        <Link
-                          style={{
-                            color: "#54A4A6",
-                            fontFamily: ["Futura", "sans-serif"],
-                          }}
-                          to={`/books/${book.id}`}
-                        >
+                        <Link style={linkStyle} to={`/books/${book.id}`}>
                           {book.title}
                         </Link>
                       </TableCell>
@@ -121,13 +110,7 @@ const Booklist = () => {
                   .map((book) => (
                     <TableRow key={book.id}>
                       <TableCell>
-                        <Link
-                          style={{
-                            color: "#54A4A6",
-                            fontFamily: ["Futura", "sans-serif"],
-                          }}
-                          to={`/books/${book.id}`}
-                        >
+                        <Link style={linkStyle} to={`/books/${book.id}`}>
                           {book.title}
                         </Link>
                       </TableCell>

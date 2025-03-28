@@ -11,8 +11,10 @@ import {
   Typography,
   Container,
 } from "@mui/material";
+
 import { initializeUsers } from "../reducers/usersReducer.js";
 import { getUserData } from "../reducers/userReducer.js";
+import { linkStyle } from "./Styles.jsx";
 
 const Userlist = () => {
   const dispatch = useDispatch();
@@ -45,13 +47,7 @@ const Userlist = () => {
                 .map((user) => (
                   <TableRow key={user.id}>
                     <TableCell>
-                      <Link
-                        style={{
-                          color: "#54A4A6",
-                          fontFamily: ["Futura", "sans-serif"],
-                        }}
-                        to={`/users/${user.id}`}
-                      >
+                      <Link style={linkStyle} to={`/users/${user.id}`}>
                         {user.name}
                       </Link>
                     </TableCell>

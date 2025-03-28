@@ -12,9 +12,11 @@ import {
   Typography,
   Container,
 } from "@mui/material";
+
 import { getUserData } from "../reducers/userReducer";
 import Loan from "./Loan";
 import Reservation from "./Reservation";
+import { linkStyle } from "./Styles";
 
 const User = () => {
   const dispatch = useDispatch();
@@ -46,10 +48,7 @@ const User = () => {
         </Typography>
         <Typography variant="body1">Name: {user.name}</Typography>
         <Typography variant="body1">Email: {user.email}</Typography>
-        <Link
-          style={{ color: "#54A4A6", fontFamily: ["Futura", "sans-serif"] }}
-          to="/userdata"
-        >
+        <Link style={linkStyle} to="/userdata">
           Change user details
         </Link>
         {user.loans.length > 0 ? (

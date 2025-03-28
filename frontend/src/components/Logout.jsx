@@ -1,7 +1,8 @@
 import { useDispatch } from "react-redux";
-import { logoutUser } from "../reducers/userReducer";
 import { useNavigate } from "react-router-dom";
 import { Button, Typography, Container } from "@mui/material";
+
+import { logoutUser } from "../reducers/userReducer";
 
 const Logout = () => {
   const dispatch = useDispatch();

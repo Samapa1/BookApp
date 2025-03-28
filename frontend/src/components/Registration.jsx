@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import PasswordField from "./PasswordField.jsx";
-import { setNotification } from "../reducers/notificationReducer.js";
-import userService from "../services/users";
 import {
   TextField,
   Button,
@@ -15,6 +12,10 @@ import EmailIcon from "@mui/icons-material/Email";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
+
+import PasswordField from "./PasswordField.jsx";
+import { setNotification } from "../reducers/notificationReducer.js";
+import userService from "../services/users";
 
 const Registration = () => {
   const dispatch = useDispatch();

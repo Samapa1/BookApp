@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { loginUser } from "../reducers/userReducer.js";
 import { useNavigate } from "react-router-dom";
-import { setNotification } from "../reducers/notificationReducer.js";
 import {
   TextField,
   Button,
@@ -16,6 +15,8 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import InputAdornment from "@mui/material/InputAdornment";
 
 import PasswordField from "./PasswordField.jsx";
+import { setNotification } from "../reducers/notificationReducer.js";
+import { linkStyle } from "./Styles.jsx";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -37,7 +38,6 @@ const Login = () => {
       setPassword("");
     } catch (exception) {
       console.log(exception);
-      // navigate("/login");
       await dispatch(
         setNotification(
           { data: "Invalid username or password", type: "error" },
@@ -90,10 +90,7 @@ const Login = () => {
           login
         </Button>
       </form>
-      <Link
-        style={{ color: "#54A4A6", fontFamily: ["Futura", "sans-serif"] }}
-        to={`/register`}
-      >
+      <Link style={linkStyle} to={`/register`}>
         Do not have an account yet? Please register.
       </Link>
     </Container>

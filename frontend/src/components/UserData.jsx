@@ -3,11 +3,6 @@ import { useState } from "react";
 import { useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getUserData } from "../reducers/userReducer";
-import { updateUser } from "../reducers/userReducer";
-import { removeUser } from "../reducers/userReducer";
-import { setNotification } from "../reducers/notificationReducer";
-import PasswordField from "./PasswordField";
 import {
   TextField,
   Button,
@@ -19,6 +14,12 @@ import EmailIcon from "@mui/icons-material/Email";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
+
+import { getUserData } from "../reducers/userReducer";
+import { updateUser } from "../reducers/userReducer";
+import { removeUser } from "../reducers/userReducer";
+import { setNotification } from "../reducers/notificationReducer";
+import PasswordField from "./PasswordField";
 
 const UserData = () => {
   const [nameOfTheUser, setName] = useState("");

@@ -13,6 +13,7 @@ import statusService from "../services/status";
 import StarRating from "./StarRating";
 import StarBar from "./StarBar";
 import BasicBookData from "./BasicBookData.jsx";
+import { linkStyle } from "./Styles.jsx";
 
 const Book = () => {
   const id = useParams().id;
@@ -142,10 +143,7 @@ const Book = () => {
         {user && user.admin ? (
           <>
             <br></br>
-            <Link
-              style={{ color: "#54A4A6", fontFamily: ["Futura", "sans-serif"] }}
-              to={`/bookdata/${book.id}`}
-            >
+            <Link style={linkStyle} to={`/bookdata/${book.id}`}>
               Change book details or delete it from the database.
             </Link>
           </>
