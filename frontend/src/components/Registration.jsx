@@ -15,6 +15,7 @@ import IconButton from "@mui/material/IconButton";
 
 import PasswordField from "./PasswordField.jsx";
 import { setNotification } from "../reducers/notificationReducer.js";
+import { loginUser } from "../reducers/userReducer.js";
 import userService from "../services/users";
 
 const Registration = () => {
@@ -69,10 +70,11 @@ const Registration = () => {
       };
 
       await userService.create(userObject);
+      await dispatch(loginUser({ username, password }));
       await dispatch(
         setNotification({ data: `Registration ok`, type: "info" }, 3000),
       );
-      navigate("/login");
+      navigate("/");
     } catch (exception) {
       await dispatch(
         setNotification(
