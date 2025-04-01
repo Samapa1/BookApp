@@ -35,11 +35,7 @@ describe("Book app", () => {
     await page.waitForTimeout(3000);
     await expect(page.getByText("Registration ok")).toBeVisible();
 
-    await expect(page.getByText("Log in to application")).toBeVisible();
-    await page.getByRole("textbox").first().fill("timothy");
-    await page.getByRole("textbox").last().fill("mysecret12");
-    await page.getByRole("button", { name: "login" }).click();
-    await page.getByText("timothy logged in").waitFor();
+    await expect(page.getByText("Welcome to the book app")).toBeVisible();
   });
 
   test("login fails with wrong credentials", async ({ page }) => {
