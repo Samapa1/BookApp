@@ -29,18 +29,18 @@ const tokenExtractor = async (req, res, next) => {
   next();
 };
 
-const errorHandler = (error, req, res) => {
+// eslint-disable-next-line no-unused-vars
+const errorHandler = (error, req, res, next) => {
   console.log("ErrorHandler");
   console.log(typeof req);
+  console.log(error);
 
   if (error.name === "JsonWebTokenError") {
-    console.log(error);
     return res.status(401).json({ error: "Token missing or invalid" });
   } else if (error.name === "SequelizeValidationError") {
     const message = error.errors[0].message;
     return res.status(400).json({ error: message });
   } else {
-    console.log(error);
     return res.status(400).json({ error: "Request failed" });
   }
 };

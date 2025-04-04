@@ -33,7 +33,7 @@ const Registration = () => {
       return false;
     }
 
-    return [/\d/.test(password)];
+    return /\d/.test(password);
   };
 
   const handleRegistration = async (event) => {

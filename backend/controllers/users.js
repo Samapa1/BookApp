@@ -13,7 +13,7 @@ const validPassword = (password) => {
   if (password.length < 8) {
     return false;
   }
-  return [/\d/.test(password)];
+  return /\d/.test(password);
 };
 
 router.get("/", tokenExtractor, async (req, res) => {
@@ -47,7 +47,7 @@ router.get("/", tokenExtractor, async (req, res) => {
   res.json(users);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   const { name, email, username, password } = req.body;
 
   if (!validPassword(req.body.password)) {
@@ -86,26 +86,20 @@ router.post("/", async (req, res) => {
       err.errors[0].type === "unique violation"
     ) {
       return res.status(400).json({ error: "email already in use" });
-    } else if (
-      err.errors[0].path === "email" &&
-      err.errors[0].type === "Validation error"
-    ) {
-      return res.status(400).json({ error: "invalid email" });
     } else {
-      console.log(err);
-      return res.status(400).json({ error: "Request failed" });
+      next(err);
     }
   }
 });
 
-router.post("/:id", tokenExtractor, async (req, res) => {
-  try {
-    const user = await User.findByPk(req.params.id);
-    const saltRounds = 10;
-    if (user.id !== req.user.id && !req.user.admin) {
-      return res.status(403).end();
-    }
+router.post("/:id", tokenExtractor, async (req, res, next) => {
+  const user = await User.findByPk(req.params.id);
+  const saltRounds = 10;
+  if (user.id !== req.user.id && !req.user.admin) {
+    return res.status(403).end();
+  }
 
+  try {
     if (req.user.admin && req.user.id !== user.id) {
       user.username = req.body.username;
       user.name = req.body.name;
@@ -173,10 +167,18 @@ router.post("/:id", tokenExtractor, async (req, res) => {
       ratings: user.ratings,
     });
   } catch (err) {
-    if (err.errors[0].type === "Validation error") {
-      return res.status(400).json({ error: err.errors[0].message });
+    if (
+      err.errors[0].path === "username" &&
+      err.errors[0].type === "unique violation"
+    ) {
+      return res.status(400).json({ error: "username already in use" });
+    } else if (
+      err.errors[0].path === "email" &&
+      err.errors[0].type === "unique violation"
+    ) {
+      return res.status(400).json({ error: "email already in use" });
     } else {
-      return res.status(400).json({ error: "Request failed" });
+      next(err);
     }
   }
 });

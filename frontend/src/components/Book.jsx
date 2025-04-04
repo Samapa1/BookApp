@@ -45,7 +45,7 @@ const Book = () => {
       }
     };
     checkAvailability();
-  }, [book, user]);
+  }, [book, user, dispatch]);
 
   useEffect(() => {
     if (user && user.loans) {
@@ -97,7 +97,7 @@ const Book = () => {
     );
   };
 
-  if (book && user) {
+  if (book && user && (available === true || available === false)) {
     return (
       <Container sx={{ marginLeft: 1, paddingBottom: 5 }}>
         <BasicBookData book={book} />
@@ -153,7 +153,7 @@ const Book = () => {
       </Container>
     );
   }
-  if (book) {
+  if (book && (available === true || available === false)) {
     return (
       <Container>
         <BasicBookData book={book} />
@@ -180,6 +180,8 @@ const Book = () => {
         <br />
       </Container>
     );
+  } else {
+    return null;
   }
 };
 

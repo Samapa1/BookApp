@@ -15,7 +15,7 @@ const StarRating = ({ id } = {}) => {
 
   useEffect(() => {
     dispatch(initializeBooks());
-  }, [user]);
+  }, [user, dispatch]);
 
   const rateBook = async (star) => {
     const newRating = {

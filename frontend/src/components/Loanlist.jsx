@@ -24,9 +24,6 @@ const Loanlist = () => {
 
   useEffect(() => {
     dispatch(getUserData());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(initializeLoans());
   }, [dispatch]);
 

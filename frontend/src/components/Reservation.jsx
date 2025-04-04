@@ -15,9 +15,10 @@ const Reservation = ({ reservation }) => {
       window.confirm(
         `Cancel book reservation (${reservation.book.title} by ${reservation.book.author})?`,
       )
-    )
+    ) {
       await dispatch(removeReservation(id));
-    await dispatch(getUserData());
+      await dispatch(getUserData());
+    }
   };
 
   const borrow = async () => {

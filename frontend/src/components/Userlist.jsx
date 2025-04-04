@@ -22,9 +22,6 @@ const Userlist = () => {
 
   useEffect(() => {
     dispatch(getUserData());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(initializeUsers());
   }, [dispatch]);
 

@@ -1,19 +1,8 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import {
-  Container,
-  AppBar,
-  Box,
-  Toolbar,
-  IconButton,
-  Button,
-  Typography,
-} from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
+import { useEffect } from "react";
+import { Container, AppBar, Box, Typography } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
-import MenuIcon from "@mui/icons-material/Menu";
-import Menu from "@mui/material/Menu";
 
 import { initializeBooks } from "./reducers/bookReducer";
 import { getUserData } from "./reducers/userReducer";
@@ -32,44 +21,9 @@ import Userlist from "./components/Userlist";
 import Reservationlist from "./components/Reservationlist";
 import Ratinglist from "./components/Ratinglist";
 import UserDataAdmin from "./components/UserDataAdmin";
+import Home from "./components/Home";
+import TopBar from "./components/Topbar";
 import { theme } from "./theme";
-
-const Home = ({ user }) => {
-  let reservationsForCollection = false;
-
-  if (user && user.reservations) {
-    if (
-      user.reservations.find((reservedBook) => reservedBook.available === true)
-    ) {
-      reservationsForCollection = true;
-    }
-  }
-
-  return (
-    <Container sx={{ marginLeft: 1 }}>
-      <ThemeProvider theme={theme}>
-        <Typography
-          variant="h4"
-          color="primary"
-          sx={{ marginTop: 5, marginBottom: 5 }}
-        >
-          Welcome to the book app!
-        </Typography>
-        <Typography variant="body1" color="primary">
-          Here you can borrow books and return your loans.
-        </Typography>
-        {reservationsForCollection ? (
-          <Typography variant="body1" color="primary">
-            You have reservations that are ready for collection. Please remember
-            to borrow them at your own page!
-          </Typography>
-        ) : (
-          ""
-        )}
-      </ThemeProvider>
-    </Container>
-  );
-};
 
 const App = () => {
   const dispatch = useDispatch();
@@ -81,26 +35,6 @@ const App = () => {
   useEffect(() => {
     dispatch(getUserData());
   }, [dispatch]);
-
-  const menu = {
-    padding: 5,
-    color: "white",
-  };
-
-  const hiddenMenu = {
-    color: "#366169",
-    fontFamily: ["Futura", "sans-serif"],
-  };
-
-  const [anchorElNav, setAnchorElNav] = useState(null);
-
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
 
   const user = useSelector((state) => state.user);
 
@@ -114,200 +48,7 @@ const App = () => {
           <Router>
             <Box sx={{ flexGrow: 1 }}>
               <AppBar sx={{ bgcolor: "#3c6d75" }} position="static">
-                <Toolbar>
-                  <Box
-                    sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
-                  >
-                    <IconButton
-                      size="large"
-                      aria-label="menu-appbar"
-                      aria-controls="menu-appbar"
-                      aria-haspopup="true"
-                      onClick={handleOpenNavMenu}
-                      color="inherit"
-                    >
-                      <MenuIcon />
-                    </IconButton>
-                    <Menu
-                      id="menu-appbar"
-                      anchorEl={anchorElNav}
-                      anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "left",
-                      }}
-                      keepMounted
-                      transformOrigin={{
-                        vertical: "top",
-                        horizontal: "left",
-                      }}
-                      open={Boolean(anchorElNav)}
-                      onClose={handleCloseNavMenu}
-                      sx={{ display: { xs: "block", md: "none" } }}
-                    >
-                      <MenuItem key="menu" onClick={handleCloseNavMenu}>
-                        <Link style={hiddenMenu} to="/">
-                          home
-                        </Link>
-                      </MenuItem>
-                      {user ? (
-                        <>
-                          <MenuItem onClick={handleCloseNavMenu}>
-                            <Link style={hiddenMenu} to="/user">
-                              my page
-                            </Link>
-                          </MenuItem>
-                        </>
-                      ) : (
-                        <></>
-                      )}
-                      <MenuItem key="books" onClick={handleCloseNavMenu}>
-                        <Link style={hiddenMenu} to="/books">
-                          books
-                        </Link>
-                      </MenuItem>
-                      {user && user.admin ? (
-                        <>
-                          <MenuItem onClick={handleCloseNavMenu}>
-                            <Link style={hiddenMenu} to="/loans">
-                              loans
-                            </Link>
-                          </MenuItem>
-                          <MenuItem onClick={handleCloseNavMenu}>
-                            <Link style={hiddenMenu} to="/reservations">
-                              reservations
-                            </Link>
-                          </MenuItem>
-                          <MenuItem onClick={handleCloseNavMenu}>
-                            <Link style={hiddenMenu} to="/ratings">
-                              ratings
-                            </Link>
-                          </MenuItem>
-                          <MenuItem onClick={handleCloseNavMenu}>
-                            <Link style={hiddenMenu} to="/users">
-                              users
-                            </Link>
-                          </MenuItem>
-                        </>
-                      ) : (
-                        <></>
-                      )}
-                      {user ? (
-                        <>
-                          <MenuItem onClick={handleCloseNavMenu}>
-                            <Link style={hiddenMenu} to="/logout">
-                              log out
-                            </Link>
-                          </MenuItem>
-                        </>
-                      ) : (
-                        <>
-                          <MenuItem onClick={handleCloseNavMenu}>
-                            <Link style={hiddenMenu} to="/login">
-                              log in
-                            </Link>
-                          </MenuItem>
-                        </>
-                      )}
-                    </Menu>
-                  </Box>
-                  <Box
-                    sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
-                  >
-                    <Button
-                      onClick={handleCloseNavMenu}
-                      sx={{ my: 2, color: "white", display: "block" }}
-                    >
-                      <Link style={menu} to="/">
-                        home
-                      </Link>
-                    </Button>
-                    {user ? (
-                      <>
-                        <Button
-                          onClick={handleCloseNavMenu}
-                          sx={{ my: 2, color: "white", display: "block" }}
-                        >
-                          <Link style={menu} to="/user">
-                            my page
-                          </Link>
-                        </Button>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                    <Button
-                      onClick={handleCloseNavMenu}
-                      sx={{ my: 2, color: "white", display: "block" }}
-                    >
-                      <Link style={menu} to="/books">
-                        books
-                      </Link>
-                    </Button>
-                    {user && user.admin ? (
-                      <>
-                        <Button
-                          onClick={handleCloseNavMenu}
-                          sx={{ my: 2, color: "white", display: "block" }}
-                        >
-                          <Link style={menu} to="/loans">
-                            loans
-                          </Link>
-                        </Button>
-                        <Button
-                          onClick={handleCloseNavMenu}
-                          sx={{ my: 2, color: "white", display: "block" }}
-                        >
-                          <Link style={menu} to="/reservations">
-                            reservations
-                          </Link>
-                        </Button>
-                        <Button
-                          onClick={handleCloseNavMenu}
-                          sx={{ my: 2, color: "white", display: "block" }}
-                        >
-                          <Link style={menu} to="/ratings">
-                            ratings
-                          </Link>
-                        </Button>
-                        <Button
-                          onClick={handleCloseNavMenu}
-                          sx={{ my: 2, color: "white", display: "block" }}
-                        >
-                          <Link style={menu} to="/users">
-                            users
-                          </Link>
-                        </Button>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                    {user ? (
-                      <>
-                        <Button
-                          onClick={handleCloseNavMenu}
-                          sx={{
-                            my: 2,
-                            color: "white",
-                            display: "block",
-                          }}
-                        >
-                          <Link style={menu} to="/logout">
-                            log out
-                          </Link>
-                        </Button>
-                      </>
-                    ) : (
-                      <Button
-                        onClick={handleCloseNavMenu}
-                        sx={{ my: 2, color: "white", display: "block" }}
-                      >
-                        <Link style={menu} to="/login">
-                          log in
-                        </Link>
-                      </Button>
-                    )}
-                  </Box>
-                </Toolbar>
+                <TopBar user={user} />
               </AppBar>
             </Box>
             <Notification></Notification>

@@ -24,11 +24,8 @@ const Reservationlist = () => {
 
   useEffect(() => {
     dispatch(getUserData());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(initializeReservations());
-  }, []);
+  }, [dispatch]);
 
   const handleRemoval = async (reservation) => {
     if (

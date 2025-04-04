@@ -37,7 +37,7 @@ const UserDataAdmin = () => {
       setAdminStatus(userData.admin);
     };
     fetchData();
-  }, []);
+  }, [id]);
 
   const navigate = useNavigate();
 
@@ -135,7 +135,6 @@ const UserDataAdmin = () => {
           </Button>
         </form>
         <Typography variant="body1" sx={{ marginTop: 3 }}>
-          {" "}
           Books borrowed: {user.loans.length}
         </Typography>
         <Typography variant="body1" sx={{ marginBottom: 3 }}>
@@ -152,7 +151,7 @@ const UserDataAdmin = () => {
         ) : (
           <Typography variant="body1" sx={{ marginBottom: 3 }}>
             User has loans. If you wish to delete account, please return books
-            first.{" "}
+            first.
           </Typography>
         )}
         {adminStatus ? (

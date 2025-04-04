@@ -24,11 +24,8 @@ const Ratinglist = () => {
 
   useEffect(() => {
     dispatch(getUserData());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(getRatings());
-  }, []);
+  }, [dispatch]);
 
   const handleRemoval = async (rating) => {
     console.log("deleting");

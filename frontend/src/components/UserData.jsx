@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -36,16 +36,12 @@ const UserData = () => {
     dispatch(getUserData());
   }, [dispatch]);
 
-  const setUserData = useCallback(async () => {
+  useEffect(() => {
     if (user) {
       setName(user.name);
       setEmail(user.email);
     }
   }, [user]);
-
-  useEffect(() => {
-    setUserData();
-  }, [setUserData]);
 
   const handleRemoval = async () => {
     try {
