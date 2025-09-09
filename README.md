@@ -3,6 +3,9 @@
 The project demonstrates book app, where users can borrow, return, reserve and rate books. There are also admin users who can
 manage books and users. 
 
+Used programming languages, frameworks and technologies: 
+JavaScript, React, Node.js, PostgreSQL, Docker, Playwright and GitHub Actions. 
+
 
 ## Instructions: 
 
